@@ -3,11 +3,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":BlockHighlightBoundaries-core"))
+    implementation(project(":GPBlockHighlightBoundaries-core"))
 
-    compileOnly(libs.spigotApi)
+    compileOnly(libs.paperApi)
     compileOnly(libs.netty)
-    compileOnly(libs.annotations)
     compileOnly(libs.griefPrevention)
     compileOnly(libs.packetEvents1)
 }

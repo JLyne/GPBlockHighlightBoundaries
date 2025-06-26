@@ -62,13 +62,6 @@ public class PluginTeamManager implements TeamManager {
         continue;
       }
 
-      // Display name is set to name when initialized.
-      // On 1.17, this allows us to use a much more forgiving name length of 128.
-      String displayName = team.getDisplayName();
-      if (identifier.length() == 16 && displayName.length() > 16) {
-        identifier = displayName;
-      }
-
       String[] nameElements = TEAM_ELEMENT_SEPARATOR.split(identifier);
       if (nameElements.length < 3) {
         continue;
@@ -127,21 +120,7 @@ public class PluginTeamManager implements TeamManager {
       return team;
     }
 
-    try {
-      team = scoreboard.registerNewTeam(name);
-    } catch (IllegalArgumentException ignored) {
-      // Support 1.17 - Spigot did not update name length limitations until 1.18.
-      String truncatedName = truncate(name, 16);
-
-      // If we have a truncated name, re-resolve team.
-      team = scoreboard.getTeam(truncatedName);
-      if (team != null) {
-        return team;
-      }
-
-      team = scoreboard.registerNewTeam(truncatedName);
-    }
-
+    team = scoreboard.registerNewTeam(name);
     team.setDisplayName(truncate(name, 128));
     team.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
     team.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);

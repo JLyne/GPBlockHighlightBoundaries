@@ -56,12 +56,8 @@ public abstract class SnapToSurface extends RealCornerVisualization {
       }
     }
 
-    // If no surface was found to snap to, default based on visibility.
-    return config.getType().isAlwaysVisible()
-        // Always visible type displays at real boundary edge because it will be shown.
-        ? new IntVector(displayCoord.x(), minY, displayCoord.z())
-        // Not always visible displays at default level.
-        : getDefaultDisplay(displayCoord, minY);
+    // Display at real boundary edge because it will be shown.
+    return new IntVector(displayCoord.x(), minY, displayCoord.z());
   }
 
   private boolean isEligible(HashMap<Integer, Boolean> transparency, Block start, int y, BlockFace direction) {

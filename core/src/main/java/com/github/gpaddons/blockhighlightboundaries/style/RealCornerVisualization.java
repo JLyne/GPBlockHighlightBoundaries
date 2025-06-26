@@ -71,8 +71,8 @@ public abstract class RealCornerVisualization extends BlockBoundaryVisualization
       IntVector coordinate = findDisplayCoordinate(vector,boundary.bounds().getMinY());
       elements.add(getElement(boundary, coordinate, VisualizationElementType.SIDE));
 
-      // If elements are always visible, display side bottoms as well.
-      if (config.getType().isAlwaysVisible() && boundary.bounds().getMinY() < coordinate.y()) {
+      // Display side bottoms as well.
+      if (boundary.bounds().getMinY() < coordinate.y()) {
         elements.add(
             getElement(
                 boundary,

@@ -12,7 +12,7 @@ val libs = the<LibrariesForLibs>()
 
 repositories {
     maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
+        url = uri("https://repo.papermc.io/repository/maven-public/")
     }
     maven {
         url = uri("https://repo.opencollab.dev/maven-snapshots/")

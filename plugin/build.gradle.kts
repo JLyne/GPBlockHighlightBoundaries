@@ -7,15 +7,14 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":BlockHighlightBoundaries-core"))
-    implementation(project(":BlockHighlightBoundaries-packetevents1"))
-    implementation(project(":BlockHighlightBoundaries-packetevents2"))
-    implementation(project(":BlockHighlightBoundaries-protocollib"))
+    implementation(project(":GPBlockHighlightBoundaries-core"))
+    implementation(project(":GPBlockHighlightBoundaries-packetevents1"))
+    implementation(project(":GPBlockHighlightBoundaries-packetevents2"))
+    implementation(project(":GPBlockHighlightBoundaries-protocollib"))
     implementation(libs.planarWrappers)
 
-    compileOnly(libs.spigotApi)
+    compileOnly(libs.paperApi)
     compileOnly(libs.floodgate)
-    compileOnly(libs.annotations)
     compileOnly(libs.griefPrevention)
 }
 
@@ -33,7 +32,7 @@ tasks {
 
 bukkit {
     main = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundaries"
-    apiVersion = "1.17"
+    apiVersion = libs.versions.paperApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
     depend = listOf("GriefPrevention")
     softDepend = listOf("ProtocolLib", "PacketEvents", "Floodgate")

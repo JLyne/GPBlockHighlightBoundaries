@@ -3,8 +3,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.spigotApi)
-    compileOnly(libs.annotations)
+    compileOnly(libs.paperApi)
     compileOnly(libs.netty)
     compileOnly(libs.griefPrevention)
 }
