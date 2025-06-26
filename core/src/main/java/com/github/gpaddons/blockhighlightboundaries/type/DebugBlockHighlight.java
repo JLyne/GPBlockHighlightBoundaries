@@ -65,7 +65,7 @@ public abstract class DebugBlockHighlight extends BlockHighlightElement {
     return ((getCoordinate().x() & 0x3FFFFFFL) << 38) | ((getCoordinate().z() & 0x3FFFFFFL) << 12) | (getCoordinate().y() & 0xFFFL);
   }
 
-  private int getColorInt() {
+  protected int getColorInt() {
     // See https://wiki.vg/Plugin_channels#minecraft:debug.2Fgame_test_add_marker
     return getColor().getRGB();
   }

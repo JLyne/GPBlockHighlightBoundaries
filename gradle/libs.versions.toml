@@ -1,6 +1,7 @@
 [versions]
 pluginYml = "0.7.1"
-paperApi = "1.21.6-R0.1-SNAPSHOT"
+paper = "1.21.6-R0.1-SNAPSHOT"
+paperweightUserdev = "2.0.0-beta.17"
 griefPrevention = "17.0.0"
 netty = "4.2.2.Final"
 planarWrappers = "4.0.0"
@@ -11,7 +12,8 @@ floodgate = "2.2.0-SNAPSHOT"
 shadow = "8.3.7"
 
 [libraries]
-paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paperApi" }
+paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+paperweightBundle = { group = "io.papermc.paper", name = "dev-bundle", version.ref = "paper" }
 griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref  = "griefPrevention" }
 netty =  { group = "io.netty", name = "netty-all", version.ref  = "netty" }
 planarWrappers =  { group = "com.github.jikoo", name = "planarwrappers", version.ref  = "planarWrappers" }
@@ -23,3 +25,4 @@ floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "flo
 [plugins]
 pluginYml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginYml" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+paperweightUserdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweightUserdev" }

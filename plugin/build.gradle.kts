@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":GPBlockHighlightBoundaries-packetevents1"))
     implementation(project(":GPBlockHighlightBoundaries-packetevents2"))
     implementation(project(":GPBlockHighlightBoundaries-protocollib"))
+    implementation(project(":GPBlockHighlightBoundaries-paperweight"))
     implementation(libs.planarWrappers)
 
     compileOnly(libs.paperApi)
@@ -32,7 +33,7 @@ tasks {
 
 bukkit {
     main = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundaries"
-    apiVersion = libs.versions.paperApi.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
+    apiVersion = libs.versions.paper.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
     depend = listOf("GriefPrevention")
     softDepend = listOf("ProtocolLib", "PacketEvents", "Floodgate")
