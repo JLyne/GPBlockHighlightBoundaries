@@ -121,7 +121,7 @@ public abstract class RealCornerVisualization extends BlockBoundaryVisualization
         GriefPrevention.instance,
         () -> {
           // Only revert if this is the active visualization.
-          if (playerData.getVisibleBoundaries() == this) revert(player);
+          if (playerData.getVisibleBoundaries() == this) playerData.setVisibleBoundaries(null);
         },
         config.getDisplayMillis() / 50);
   }
