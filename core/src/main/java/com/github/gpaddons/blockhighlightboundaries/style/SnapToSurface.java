@@ -2,10 +2,10 @@ package com.github.gpaddons.blockhighlightboundaries.style;
 
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.griefprevention.util.IntVector;
-import java.util.HashMap;
+import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -13,10 +13,6 @@ import org.jetbrains.annotations.NotNull;
  * surface.
  */
 public abstract class SnapToSurface extends RealCornerVisualization {
-
-  private static final int SEARCH_DISTANCE = 10;
-  private static final BlockFace[] BLOCK_FACES = new BlockFace[]{ BlockFace.DOWN, BlockFace.UP };
-
   private int lastLoadedDisplayHeight = Integer.MIN_VALUE;
 
   protected SnapToSurface(
@@ -28,50 +24,112 @@ public abstract class SnapToSurface extends RealCornerVisualization {
   }
 
   @Override
-  protected @NotNull IntVector findDisplayCoordinate(
-      @NotNull IntVector displayCoord,
-      int minY) {
+  protected @NotNull IntVector findDisplayCoordinate(@NotNull IntVector displayCoord, int minY) {
     if (!displayCoord.isChunkLoaded(world)) {
       // Don't load chunks to find a display coordinate.
       return getDefaultDisplay(displayCoord, minY);
     }
 
+    // Highest block + 1 air
+    int maxY = world.getHighestBlockAt(displayCoord.x(), displayCoord.z()).getY() + 1;
     Block startBlock = world.getBlockAt(displayCoord.x(), displayCoord.y(), displayCoord.z());
-    HashMap<Integer, Boolean> transparency = new HashMap<>();
 
-    for (int dY = 1; dY <= SEARCH_DISTANCE; dY++) {
-      // Search down 1 then up 1 - find nearest surface faster, but always prioritize snapping down.
-      // This prioritizes the floor for areas with low roofs.
-      for (BlockFace direction : BLOCK_FACES) {
+    // Find suitable surface block (solid block below a transparent block)
+    // Check down first to show blocks on the ground when there is a low roof/in a cave etc
+    // Check up if no suitable block found to handle e.g mountains
+    IntVector result = findSuitableBlockDown(startBlock, minY);
 
-        int y = startBlock.getY() + dY * direction.getModY();
-        if (y < minY) {
-          continue;
-        }
-
-        if (isEligible(transparency, startBlock, y, direction)) {
-          lastLoadedDisplayHeight = y;
-          return new IntVector(displayCoord.x(), y, displayCoord.z());
-        }
-      }
+    if (result == null) {
+      result = findSuitableBlockUp(startBlock, maxY);
     }
 
-    // Display at real boundary edge because it will be shown.
-    return new IntVector(displayCoord.x(), minY, displayCoord.z());
+    // Fallback to default position if nothing found
+    if (result == null) {
+      // Display at real boundary edge because it will be shown.
+      result = getDefaultDisplay(displayCoord, minY);
+    }
+
+    return result;
   }
 
-  private boolean isEligible(HashMap<Integer, Boolean> transparency, Block start, int y, BlockFace direction) {
-    return !isTransparent(transparency, start, y) && isTransparent(transparency, start, y - direction.getModY());
+  /**
+   * Attempt to find a suitable block above the starting position
+   * A suitable block is a solid block directly below a transparent block
+   * @param start - Starting block
+   * @param maxY - The y level to stop searching at
+   * @return The first suitable block found, if any
+   */
+  private IntVector findSuitableBlockUp(Block start, int maxY) {
+    int y = Math.min(start.getY(), maxY);
+    Boolean previousSolid = null;
+
+    do {
+      boolean solid = !isTransparent(start.getWorld().getBlockAt(start.getX(), y, start.getZ()));
+
+      // Valid spot
+      if (!solid && Boolean.TRUE.equals(previousSolid)) {
+        lastLoadedDisplayHeight = y;
+        return new IntVector(start.getX(), y - 1, start.getZ());
+      }
+
+      previousSolid = solid;
+      y += 1;
+    } while (y <= maxY);
+
+    return null;
   }
 
-  private boolean isTransparent(HashMap<Integer, Boolean> transparency, Block start, int y) {
-    return transparency.computeIfAbsent(y, key -> {
-      Block keyBlock = start.getWorld().getBlockAt(start.getX(), y, start.getZ());
-      return isTransparent(keyBlock);
-    });
+  /**
+   * Attempt to find a suitable block below the starting position
+   * A suitable block is a solid block directly below a transparent block
+   * @param start - Starting block
+   * @param minY - The y level to stop searching at
+   * @return The first suitable block found, if any
+   */
+  private IntVector findSuitableBlockDown(Block start, int minY) {
+    int y = Math.max(minY, start.getY());
+    Boolean previousSolid = null;
+
+    do {
+      boolean solid = !isTransparent(start.getWorld().getBlockAt(start.getX(), y, start.getZ()));
+
+      // Stop checking blocks if we encounter 2 solid blocks in a row, to avoid
+      // selecting a block inaccessible to the player
+      if (solid && Boolean.TRUE.equals(previousSolid)) {
+        break;
+      }
+
+      // Valid spot
+      if (solid && Boolean.FALSE.equals(previousSolid)) {
+        lastLoadedDisplayHeight = y;
+        return new IntVector(start.getX(), y, start.getZ());
+      }
+
+      previousSolid = solid;
+      y -= 1;
+    } while (y >= minY);
+
+    return null;
   }
 
   private boolean isTransparent(Block block) {
+    Material blockMaterial = block.getType();
+
+    // Custom per-material definitions.
+    switch (blockMaterial)
+    {
+      case WATER, SNOW:
+        return false;
+    }
+
+    if (blockMaterial.isAir()
+        || Tag.FENCES.isTagged(blockMaterial)
+        || Tag.FENCE_GATES.isTagged(blockMaterial)
+        || Tag.SIGNS.isTagged(blockMaterial)
+        || Tag.WALLS.isTagged(blockMaterial)
+        || Tag.WALL_SIGNS.isTagged(blockMaterial))
+      return true;
+
     return block.getType().isTransparent();
   }
 
@@ -85,5 +143,4 @@ public abstract class SnapToSurface extends RealCornerVisualization {
     // Fall through to default.
     return super.getDefaultDisplay(vector, minY);
   }
-
 }
