@@ -1,4 +1,5 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import net.minecrell.pluginyml.paper.PaperPluginDescription
 
 plugins {
     id("gp-block-highlight-boundaries.java-conventions")
@@ -31,12 +32,29 @@ tasks {
     }
 }
 
-bukkit {
+paper {
     main = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundaries"
     apiVersion = libs.versions.paper.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
-    depend = listOf("GriefPrevention")
-    softDepend = listOf("ProtocolLib", "PacketEvents", "Floodgate")
+
+    serverDependencies {
+      register("GriefPrevention") {
+        required = true
+        load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+      }
+      register("ProtocolLib") {
+        required = false
+        load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+      }
+      register("PacketEvents") {
+        required = false
+        load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+      }
+      register("Floodgate") {
+        required = false
+        load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+      }
+    }
 
     permissions {
         register("gpbhb.reload") {

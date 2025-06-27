@@ -23,6 +23,6 @@ packetEvents2 = { group = "com.github.retrooper.packetevents", name = "spigot", 
 floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
 
 [plugins]
-pluginYml = { id = "de.eldoria.plugin-yml.bukkit", version.ref = "pluginYml" }
+pluginYml = { id = "de.eldoria.plugin-yml.paper", version.ref = "pluginYml" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 paperweightUserdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweightUserdev" }
