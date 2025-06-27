@@ -9,17 +9,23 @@ import com.griefprevention.events.BoundaryVisualizationEvent;
 import com.griefprevention.visualization.VisualizationProvider;
 import java.util.List;
 import java.util.function.Supplier;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static io.papermc.paper.command.brigadier.Commands.literal;
+
+@SuppressWarnings("UnstableApiUsage")
 public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
 {
-
   private final @NotNull PluginHighlightConfiguration configuration = new PluginHighlightConfiguration(this);
   private final @NotNull PluginTeamManager teamManager = new PluginTeamManager(this, configuration);
   private FloodgateCompat floodgateCompat;
@@ -35,6 +41,10 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
       getLogger().warning("Please install ProtocolLib or PacketEvents and restart your server.");
     }
     getServer().getPluginManager().registerEvents(this, this);
+
+    LifecycleEventManager<@NotNull Plugin> manager = getLifecycleManager();
+    manager.registerEventHandler(LifecycleEvents.COMMANDS,
+        event -> registerCommands(event.registrar()));
   }
 
   @Override
@@ -50,19 +60,22 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
     }
   }
 
-  @Override
-  public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-      @NotNull String label, @NotNull String[] args) {
-    if (command.getName().equalsIgnoreCase("gpbhbreload")) {
-      this.reloadConfig();
-      configuration.reload();
-      teamManager.reload();
-      provider = getProvider();
-      sender.sendMessage("GPBlockHighlightBoundaries configuration reloaded.");
-      sender.sendMessage("Note that for values in the advanced section a full restart is required.");
-      return true;
-    }
-    return false;
+  private void registerCommands(Commands commands) {
+    LiteralCommandNode<CommandSourceStack> reloadCommand = literal("gpbhbreload")
+        .requires(source -> source.getSender().hasPermission("gpbhb.reload"))
+        .executes(ctx -> {
+          this.reloadConfig();
+          configuration.reload();
+          teamManager.reload();
+          provider = getProvider();
+          ctx.getSource().getSender()
+              .sendMessage("GPBlockHighlightBoundaries configuration reloaded.");
+          ctx.getSource().getSender()
+              .sendMessage("Note that for values in the advanced section a full restart is required.");
+          return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+        }).build();
+
+    commands.register(reloadCommand, "Reload the GPBlockHighlightBoundaries configuration.");
   }
 
   private @Nullable VisualizationProvider getProvider() {

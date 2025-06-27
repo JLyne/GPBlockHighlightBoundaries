@@ -38,13 +38,6 @@ bukkit {
     depend = listOf("GriefPrevention")
     softDepend = listOf("ProtocolLib", "PacketEvents", "Floodgate")
 
-    commands {
-        register("gpbhbreload") {
-            description = "Reload the GPBlockHighlightBoundaries configuration."
-            permission = "gpbhb.reload"
-        }
-    }
-
     permissions {
         register("gpbhb.reload") {
           description = "Allow use of /gpbhbreload"
