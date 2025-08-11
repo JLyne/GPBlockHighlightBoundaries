@@ -10,6 +10,7 @@ packetEvents1 = "1.8.4"
 packetEvents2 = "2.2.0"
 floodgate = "2.2.0-SNAPSHOT"
 shadow = "8.3.8"
+messagesHelper = "1.1-SNAPSHOT"
 
 [libraries]
 paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
@@ -21,6 +22,7 @@ protocolLib = { group = "com.github.dmulloy2", name = "ProtocolLib", version.ref
 packetEvents1 = { group = "com.github.retrooper", name = "packetevents", version.ref = "packetEvents1" }
 packetEvents2 = { group = "com.github.retrooper.packetevents", name = "spigot", version.ref = "packetEvents2" }
 floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
+messagesHelper = { group = "uk.co.notnull", name= "MessagesHelper-paper", version.ref = "messagesHelper" }
 
 [plugins]
 pluginYml = { id = "de.eldoria.plugin-yml.paper", version.ref = "pluginYml" }

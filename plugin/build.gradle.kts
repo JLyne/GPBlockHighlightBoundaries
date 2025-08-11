@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":GPBlockHighlightBoundaries-protocollib"))
     implementation(project(":GPBlockHighlightBoundaries-paperweight"))
     implementation(libs.planarWrappers)
+    implementation(libs.messagesHelper)
 
     compileOnly(libs.paperApi)
     compileOnly(libs.floodgate)

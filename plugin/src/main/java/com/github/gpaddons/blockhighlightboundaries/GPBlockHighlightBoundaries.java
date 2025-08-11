@@ -7,6 +7,7 @@ import com.github.gpaddons.blockhighlightboundaries.impl.protocollib.ProtocolLib
 import com.github.gpaddons.blockhighlightboundaries.impl.paperweight.PaperweightProvider;
 import com.griefprevention.events.BoundaryVisualizationEvent;
 import com.griefprevention.visualization.VisualizationProvider;
+import java.io.File;
 import java.util.List;
 import java.util.function.Supplier;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -21,15 +22,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import uk.co.notnull.messageshelper.Message;
+import uk.co.notnull.messageshelper.MessagesHelper;
+
 import static io.papermc.paper.command.brigadier.Commands.literal;
 
-@SuppressWarnings("UnstableApiUsage")
 public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
 {
   private final @NotNull PluginHighlightConfiguration configuration = new PluginHighlightConfiguration(this);
   private final @NotNull PluginTeamManager teamManager = new PluginTeamManager(this, configuration);
   private FloodgateCompat floodgateCompat;
   private @Nullable VisualizationProvider provider;
+  MessagesHelper messagesHelper = MessagesHelper.getInstance(this);
 
   @Override
   public void onEnable() {
@@ -41,6 +45,8 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
       getLogger().warning("Please install ProtocolLib or PacketEvents and restart your server.");
     }
     getServer().getPluginManager().registerEvents(this, this);
+
+    initMessages();
 
     LifecycleEventManager<@NotNull Plugin> manager = getLifecycleManager();
     manager.registerEventHandler(LifecycleEvents.COMMANDS,
@@ -65,13 +71,12 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
         .requires(source -> source.getSender().hasPermission("gpbhb.reload"))
         .executes(ctx -> {
           this.reloadConfig();
+          initMessages();
           configuration.reload();
           teamManager.reload();
           provider = getProvider();
-          ctx.getSource().getSender()
-              .sendMessage("GPBlockHighlightBoundaries configuration reloaded.");
-          ctx.getSource().getSender()
-              .sendMessage("Note that for values in the advanced section a full restart is required.");
+          messagesHelper.send(ctx.getSource().getSender(), Message.builder("message.config-reloaded").build());
+
           return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         }).build();
 
@@ -94,4 +99,13 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
         .orElse(null);
   }
 
+  private void initMessages() {
+    File messagesFile = new File(getDataFolder(), "messages.yml");
+
+    if(!messagesFile.exists()) {
+      saveResource("messages.yml", false);
+    }
+
+    messagesHelper.loadMessages(messagesFile);
+  }
 }

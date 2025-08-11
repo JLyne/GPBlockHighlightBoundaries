@@ -1,0 +1,2 @@
+message:
+  config-reloaded: '<green>GPBlockHighlightBoundaries configuration reloaded.<br><yellow>Note that for values in the advanced section a full restart is required.'
