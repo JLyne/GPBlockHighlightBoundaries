@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import me.ryanhamshire.GriefPrevention.GriefPrevention;
 import me.ryanhamshire.GriefPrevention.PlayerData;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -92,7 +92,7 @@ public abstract class RealCornerVisualization extends BlockBoundaryVisualization
       Collection<BlockElement> fallthroughElements = new ArrayList<>();
       for (BlockElement element : this.elements) {
         if (element instanceof BlockHighlightElement highlightElement) {
-          ChatColor color = config.getClosestChatColor(boundary.type(), highlightElement.getElementType());
+          NamedTextColor color = config.getClosestChatColor(boundary.type(), highlightElement.getElementType());
           fallthroughElements.add(new FallThroughElement(element.getCoordinate(), color));
         } else {
           // Somehow not our element? Someone else's problem if it fails again.

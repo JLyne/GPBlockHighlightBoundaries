@@ -6,19 +6,16 @@ import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementTyp
 import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationType;
 import java.awt.Color;
-import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -33,7 +30,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   private @Nullable HighlightType highlightType;
   private @Nullable HighlightStyle highlightStyle;
   private final Map<ColorPath, Color> colorCache = new HashMap<>();
-  private final Map<ColorPath, ChatColor> chatColorCache = new HashMap<>();
+  private final Map<ColorPath, NamedTextColor> chatColorCache = new HashMap<>();
   private Set<UUID> optedOut = new HashSet<>();
 
   PluginHighlightConfiguration(Plugin plugin) {
@@ -158,7 +155,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   }
 
   @Override
-  public @NotNull ChatColor getClosestChatColor(
+  public @NotNull NamedTextColor getClosestChatColor(
       @NotNull VisualizationType type,
       @NotNull VisualizationElementType element) {
     ColorPath colorPath = new ColorPath(type, element);
@@ -204,40 +201,8 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
     return defaultValue;
   }
 
-  private static final Map<ChatColor, Vector> COLOR_VECTORS = new EnumMap<>(ChatColor.class);
-
-  static {
-    Arrays.stream(ChatColor.values()).filter(ChatColor::isColor).forEach(chatColor -> {
-      Color color = chatColor.asBungee().getColor();
-      Vector vector = new Vector(color.getRed(), color.getGreen(), color.getBlue());
-      COLOR_VECTORS.put(chatColor, vector);
-    });
-  }
-
-  private static @NotNull ChatColor asChatColor(@NotNull Color color) {
-    Vector colorVector = new Vector(color.getRed(), color.getGreen(), color.getBlue());
-    // Alpha -> greyscaling, reduce all colors by percentage.
-    colorVector.multiply(color.getAlpha() / 255.0D);
-
-    ChatColor bestMatch = ChatColor.WHITE;
-    double bestDistance = Double.MAX_VALUE;
-
-    for (Entry<ChatColor, Vector> chatVectorEntry : COLOR_VECTORS.entrySet()) {
-      Vector chatVector = chatVectorEntry.getValue().clone();
-
-      if (colorVector.equals(chatVector)) {
-        return chatVectorEntry.getKey();
-      }
-
-      // No need to get square root, effectively the same result either way.
-      double distance = colorVector.distanceSquared(chatVector);
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestMatch = chatVectorEntry.getKey();
-      }
-    }
-
-    return bestMatch;
+  private static @NotNull NamedTextColor asChatColor(@NotNull Color color) {
+    return NamedTextColor.nearestTo(TextColor.color(color.getRGB()));
   }
 
   private record ColorPath(@NotNull VisualizationType visualization, @NotNull VisualizationElementType element) {

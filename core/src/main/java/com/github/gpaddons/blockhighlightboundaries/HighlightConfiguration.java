@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.util.Set;
 import java.util.UUID;
 import com.griefprevention.visualization.VisualizationType;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -92,13 +92,13 @@ public interface HighlightConfiguration {
   @NotNull String getName(@NotNull Boundary boundary, @NotNull VisualizationElementType element);
 
   /**
-   * Get the closest legacy {@link ChatColor} to a configured {@link Color} for an element.
+   * Get the closest legacy {@link NamedTextColor} to a configured {@link Color} for an element.
    *
    * @param type the type of visualization
    * @param element the element of the visualization
    * @return the closest legacy chat color
    */
-  @NotNull ChatColor getClosestChatColor(@NotNull VisualizationType type, @NotNull VisualizationElementType element);
+  @NotNull NamedTextColor getClosestChatColor(@NotNull VisualizationType type, @NotNull VisualizationElementType element);
 
   /**
    * Get a {@link Color} for an element.

@@ -2,7 +2,7 @@ package com.github.gpaddons.blockhighlightboundaries.type;
 
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.BlockElement;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,10 +23,10 @@ public final class FallThroughElement extends BlockElement
 
   public FallThroughElement(
       @NotNull IntVector intVector,
-      @NotNull ChatColor color)
+      @NotNull NamedTextColor color)
   {
     super(intVector);
-    Material material = Material.getMaterial(color.name() + "_ WOOL");
+    Material material = Material.matchMaterial(color + "_wool");
     if (material == null) {
       material = Material.WHITE_WOOL;
     }

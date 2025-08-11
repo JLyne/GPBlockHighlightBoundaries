@@ -3,6 +3,7 @@ package com.github.gpaddons.blockhighlightboundaries;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.visualization.VisualizationType;
 import java.util.regex.Pattern;
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
@@ -74,7 +75,7 @@ public class PluginTeamManager implements TeamManager {
         continue;
       }
 
-      team.setColor(configuration.getClosestChatColor(type, element));
+      team.color(configuration.getClosestChatColor(type, element));
     }
   }
 
@@ -121,10 +122,10 @@ public class PluginTeamManager implements TeamManager {
     }
 
     team = scoreboard.registerNewTeam(name);
-    team.setDisplayName(truncate(name, 128));
+    team.displayName(Component.text(truncate(name, 128)));
     team.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
     team.setOption(Option.NAME_TAG_VISIBILITY, OptionStatus.ALWAYS);
-    team.setColor(configuration.getClosestChatColor(type, element));
+    team.color(configuration.getClosestChatColor(type, element));
 
     return team;
   }
