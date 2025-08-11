@@ -28,7 +28,7 @@ import uk.co.notnull.messageshelper.MessagesHelper;
 
 import static io.papermc.paper.command.brigadier.Commands.literal;
 
-public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
+public final class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
 {
   private final @NotNull PluginHighlightConfiguration configuration = new PluginHighlightConfiguration(this);
   private final @NotNull PluginTeamManager teamManager = new PluginTeamManager(this, configuration);

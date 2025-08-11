@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.function.Supplier;
 
-public class FloodgateCompat extends ProvidedService<FloodgateApi> {
+public final class FloodgateCompat extends ProvidedService<FloodgateApi> {
 
   public FloodgateCompat(@NotNull Plugin plugin) {
     super(plugin);
