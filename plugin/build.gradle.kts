@@ -4,7 +4,6 @@ import net.minecrell.pluginyml.paper.PaperPluginDescription
 plugins {
     id("gp-block-highlight-boundaries.java-conventions")
     alias(libs.plugins.pluginYml)
-    alias(libs.plugins.shadow)
 }
 
 dependencies {
@@ -13,8 +12,8 @@ dependencies {
     implementation(project(":GPBlockHighlightBoundaries-packetevents2"))
     implementation(project(":GPBlockHighlightBoundaries-protocollib"))
     implementation(project(":GPBlockHighlightBoundaries-paperweight"))
-    implementation(libs.planarWrappers)
-    implementation(libs.messagesHelper)
+    paperLibrary(libs.planarWrappers)
+    paperLibrary(libs.messagesHelper)
 
     compileOnly(libs.paperApi)
     compileOnly(libs.floodgate)
@@ -22,20 +21,20 @@ dependencies {
 }
 
 tasks {
-    shadowJar {
-        archiveClassifier = ""
-        relocate("com.github.jikoo.planarwrappers", "com.github.gpaddons.blockhighlightboundaries.planarwrappers")
-        minimize()
-    }
-
-    build {
-        dependsOn(shadowJar)
+    jar {
+      from(project(":GPBlockHighlightBoundaries-core").sourceSets.main.get().output)
+      from(project(":GPBlockHighlightBoundaries-packetevents1").sourceSets.main.get().output)
+      from(project(":GPBlockHighlightBoundaries-packetevents2").sourceSets.main.get().output)
+      from(project(":GPBlockHighlightBoundaries-protocollib").sourceSets.main.get().output)
+      from(project(":GPBlockHighlightBoundaries-paperweight").sourceSets.main.get().output)
     }
 }
 
 paper {
     main = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundaries"
+    loader = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundariesLoader"
     apiVersion = libs.versions.paper.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
+    generateLibrariesJson = true
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
 
     serverDependencies {
