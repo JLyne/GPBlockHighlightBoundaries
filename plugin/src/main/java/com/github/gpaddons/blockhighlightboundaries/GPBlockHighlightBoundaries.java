@@ -15,6 +15,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -56,12 +57,14 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
   @Override
   public void onDisable() {
     teamManager.cleanUp();
+    configuration.saveOptOuts();
   }
 
   @EventHandler
   private void onVisualize(@NotNull BoundaryVisualizationEvent event)
   {
-    if (!floodgateCompat.isBedrock(event.getPlayer()) && provider != null) {
+    if (provider != null && !floodgateCompat.isBedrock(event.getPlayer())
+        && !configuration.isOptedOut(event.getPlayer().getUniqueId())) {
       event.setProvider(provider);
     }
   }
@@ -70,6 +73,7 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
     LiteralCommandNode<CommandSourceStack> reloadCommand = literal("gpbhbreload")
         .requires(source -> source.getSender().hasPermission("gpbhb.reload"))
         .executes(ctx -> {
+          configuration.saveOptOuts();
           this.reloadConfig();
           initMessages();
           configuration.reload();
@@ -80,7 +84,53 @@ public class GPBlockHighlightBoundaries extends JavaPlugin implements Listener
           return com.mojang.brigadier.Command.SINGLE_SUCCESS;
         }).build();
 
+    LiteralCommandNode<CommandSourceStack> optOutCommand = literal("basicvisualizations")
+        .requires(source -> source.getSender() instanceof Player player
+            && player.hasPermission("gpbhb.toggle"))
+        .executes(ctx -> {
+          if (!(ctx.getSource().getSender() instanceof Player player)) {
+            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+          }
+
+          if (floodgateCompat.isBedrock(player)) {
+            messagesHelper.send(ctx.getSource().getSender(), Message.builder("message.cant-switch-bedrock").build());
+            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+          }
+
+          if (configuration.optOut(player.getUniqueId())) {
+            messagesHelper.send(ctx.getSource().getSender(), Message.builder("message.switched-basic").build());
+          } else {
+            messagesHelper.send(ctx.getSource().getSender(), Message.builder("message.already-basic").build());
+          }
+
+          return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+        }).build();
+
+    LiteralCommandNode<CommandSourceStack> optInCommand = literal("enhancedvisualizations")
+        .requires(source -> source.getSender() instanceof Player player
+            && player.hasPermission("gpbhb.toggle"))
+        .executes(ctx -> {
+          if (!(ctx.getSource().getSender() instanceof Player player)) {
+            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+          }
+
+          if (floodgateCompat.isBedrock(player)) {
+            messagesHelper.send(ctx.getSource().getSender(), Message.builder("message.cant-switch-bedrock").build());
+            return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+          }
+
+          if (configuration.optIn(player.getUniqueId())) {
+            messagesHelper.send(ctx.getSource().getSender(), Message.builder("message.switched-enhanced").build());
+          } else {
+            messagesHelper.send(ctx.getSource().getSender(), Message.builder("message.already-enhanced").build());
+          }
+
+          return com.mojang.brigadier.Command.SINGLE_SUCCESS;
+        }).build();
+
     commands.register(reloadCommand, "Reload the GPBlockHighlightBoundaries configuration.");
+    commands.register(optOutCommand, "Switch to basic claim visualizations.");
+    commands.register(optInCommand, "Switch to enhanced claim visualizations.");
   }
 
   private @Nullable VisualizationProvider getProvider() {

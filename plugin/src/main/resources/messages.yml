@@ -1,2 +1,8 @@
 message:
   config-reloaded: '<green>GPBlockHighlightBoundaries configuration reloaded.<br><yellow>Note that for values in the advanced section a full restart is required.'
+  switched-basic: '<green>You are now using basic claim visualizations. Use /enhancedvisualizations to switch back.'
+  switched-enhanced: '<green>You are now using enhanced claim visualizations. Use /basicvisualizations to switch back.'
+  already-basic: '<red>You are already using basic claim visualizations.'
+  already-enhanced: '<red>You are already using enhanced claim visualizations.'
+  cant-switch-bedrock: '<red>You cannot change your claim visualization type while using Bedrock Edition.'
+  not-in-game: '<bold>You must be in-game to use this command.'

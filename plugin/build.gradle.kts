@@ -58,8 +58,13 @@ paper {
     }
 
     permissions {
+        register("gpbhb.toggle") {
+          description = "Allow use of /basicvisualizations and /enhancedvisualizations"
+          default = BukkitPluginDescription.Permission.Default.TRUE
+        }
         register("gpbhb.reload") {
           description = "Allow use of /gpbhbreload"
+          default = BukkitPluginDescription.Permission.Default.OP
         }
     }
 }

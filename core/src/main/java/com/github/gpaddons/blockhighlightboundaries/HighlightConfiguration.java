@@ -5,6 +5,8 @@ import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.visualization.Boundary;
 import java.awt.Color;
+import java.util.Set;
+import java.util.UUID;
 import com.griefprevention.visualization.VisualizationType;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
@@ -57,6 +59,28 @@ public interface HighlightConfiguration {
    * @return the style of highlight active
    */
   @NotNull HighlightStyle getStyle();
+
+  /**
+   * Get the set of players who have opted out of enhanced visualisations
+   *
+   * @return the set of players who have opted out
+   */
+  @NotNull Set<UUID> getOptedOut();
+
+  /**
+   * Returns whether a player is currently opted out from enhanced visualisations
+   */
+  boolean isOptedOut(UUID uuid);
+
+  /**
+   * Opt out a player from enhanced visualisations
+   */
+  boolean optOut(UUID uuid);
+
+  /**
+   * Opt in a player to enhanced visualisations
+   */
+  boolean optIn(UUID uuid);
 
   /**
    * Get the name of an element in a {@link Boundary}.

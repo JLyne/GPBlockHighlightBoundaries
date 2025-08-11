@@ -9,9 +9,13 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
@@ -30,6 +34,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   private @Nullable HighlightStyle highlightStyle;
   private final Map<ColorPath, Color> colorCache = new HashMap<>();
   private final Map<ColorPath, ChatColor> chatColorCache = new HashMap<>();
+  private Set<UUID> optedOut = new HashSet<>();
 
   PluginHighlightConfiguration(Plugin plugin) {
     this.plugin = plugin;
@@ -43,6 +48,13 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
     highlightStyle = null;
     colorCache.clear();
     chatColorCache.clear();
+    getOptedOut();
+  }
+
+  void saveOptOuts() {
+    plugin.reloadConfig();
+    plugin.getConfig().set("opted-out", optedOut.stream().map(UUID::toString).toList());
+    plugin.saveConfig();
   }
 
   @Override
@@ -97,6 +109,44 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
     }
 
     return highlightStyle;
+  }
+
+  @Override
+  public @NotNull Set<UUID> getOptedOut() {
+    if (optedOut == null) {
+      optedOut = plugin.getConfig().getStringList("opted-out").stream()
+          .map(UUID::fromString)
+          .collect(Collectors.toSet());
+    }
+
+    return optedOut;
+  }
+
+  @Override
+  public boolean isOptedOut(UUID uuid) {
+    if (optedOut == null) {
+      getOptedOut();
+    }
+
+    return optedOut.contains(uuid);
+  }
+
+  @Override
+  public boolean optOut(UUID uuid) {
+    if (optedOut == null) {
+      getOptedOut();
+    }
+
+    return optedOut.add(uuid);
+  }
+
+  @Override
+  public boolean optIn(UUID uuid) {
+    if (optedOut == null) {
+      getOptedOut();
+    }
+
+    return optedOut.remove(uuid);
   }
 
   @Override
