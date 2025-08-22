@@ -7,7 +7,6 @@ import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationType;
 import java.awt.Color;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -31,7 +30,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   private @Nullable HighlightStyle highlightStyle;
   private final Map<ColorPath, Color> colorCache = new HashMap<>();
   private final Map<ColorPath, NamedTextColor> chatColorCache = new HashMap<>();
-  private Set<UUID> optedOut = new HashSet<>();
+  private @Nullable Set<UUID> optedOut = null;
 
   PluginHighlightConfiguration(Plugin plugin) {
     this.plugin = plugin;
