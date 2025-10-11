@@ -8,7 +8,6 @@ plugins {
 
 dependencies {
     implementation(project(":GPBlockHighlightBoundaries-core"))
-    implementation(project(":GPBlockHighlightBoundaries-packetevents1"))
     implementation(project(":GPBlockHighlightBoundaries-packetevents2"))
     implementation(project(":GPBlockHighlightBoundaries-protocollib"))
     implementation(project(":GPBlockHighlightBoundaries-paperweight"))
@@ -23,7 +22,6 @@ dependencies {
 tasks {
     jar {
       from(project(":GPBlockHighlightBoundaries-core").sourceSets.main.get().output)
-      from(project(":GPBlockHighlightBoundaries-packetevents1").sourceSets.main.get().output)
       from(project(":GPBlockHighlightBoundaries-packetevents2").sourceSets.main.get().output)
       from(project(":GPBlockHighlightBoundaries-protocollib").sourceSets.main.get().output)
       from(project(":GPBlockHighlightBoundaries-paperweight").sourceSets.main.get().output)

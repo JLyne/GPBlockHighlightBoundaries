@@ -4,14 +4,12 @@
 
 rootProject.name = "GPBlockHighlightBoundaries"
 include(":GPBlockHighlightBoundaries-core")
-include(":GPBlockHighlightBoundaries-packetevents1")
 include(":GPBlockHighlightBoundaries-packetevents2")
 include(":GPBlockHighlightBoundaries-protocollib")
 include(":GPBlockHighlightBoundaries-paperweight")
 include(":GPBlockHighlightBoundaries-plugin")
 
 project(":GPBlockHighlightBoundaries-core").projectDir = file("core")
-project(":GPBlockHighlightBoundaries-packetevents1").projectDir = file("impl/packetevents1")
 project(":GPBlockHighlightBoundaries-packetevents2").projectDir = file("impl/packetevents2")
 project(":GPBlockHighlightBoundaries-protocollib").projectDir = file("impl/protocollib")
 project(":GPBlockHighlightBoundaries-paperweight").projectDir = file("impl/paperweight")

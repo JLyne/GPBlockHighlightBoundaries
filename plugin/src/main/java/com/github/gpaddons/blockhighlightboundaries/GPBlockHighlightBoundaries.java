@@ -1,7 +1,6 @@
 package com.github.gpaddons.blockhighlightboundaries;
 
 import com.github.gpaddons.blockhighlightboundaries.compat.FloodgateCompat;
-import com.github.gpaddons.blockhighlightboundaries.impl.packetevents1.PacketEvents1Provider;
 import com.github.gpaddons.blockhighlightboundaries.impl.packetevents2.PacketEvents2Provider;
 import com.github.gpaddons.blockhighlightboundaries.impl.protocollib.ProtocolLibProvider;
 import com.github.gpaddons.blockhighlightboundaries.impl.paperweight.PaperweightProvider;
@@ -138,7 +137,6 @@ public final class GPBlockHighlightBoundaries extends JavaPlugin implements List
         // Prefer ProtocolLib, it's more reliable/stable.
         ProtocolLibProvider::new,
         PacketEvents2Provider::new,
-        PacketEvents1Provider::new,
         PaperweightProvider::new
     );
 
