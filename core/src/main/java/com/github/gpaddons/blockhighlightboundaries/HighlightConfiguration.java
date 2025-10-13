@@ -4,11 +4,11 @@ import com.github.gpaddons.blockhighlightboundaries.style.HighlightStyle;
 import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.visualization.Boundary;
-import java.awt.Color;
 import java.util.Set;
 import java.util.UUID;
 import com.griefprevention.visualization.VisualizationType;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 

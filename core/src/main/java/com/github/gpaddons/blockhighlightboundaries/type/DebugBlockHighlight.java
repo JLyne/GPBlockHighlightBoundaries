@@ -4,9 +4,9 @@ import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
 import io.netty.buffer.ByteBuf;
-import java.awt.Color;
 import java.nio.charset.StandardCharsets;
 import java.util.function.UnaryOperator;
+import org.bukkit.Color;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -67,7 +67,7 @@ public abstract class DebugBlockHighlight extends BlockHighlightElement {
 
   protected int getColorInt() {
     // See https://wiki.vg/Plugin_channels#minecraft:debug.2Fgame_test_add_marker
-    return getColor().getRGB();
+    return getColor().asRGB();
   }
 
   private void writeString(ByteBuf buffer, @NotNull String value) {

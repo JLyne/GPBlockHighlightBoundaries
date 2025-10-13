@@ -5,7 +5,6 @@ import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationType;
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Color;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -173,11 +173,11 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
 
   private @NotNull Color getColor(@NotNull ColorPath colorPath) {
 
-    return colorCache.computeIfAbsent(colorPath, key -> new Color(
+    return colorCache.computeIfAbsent(colorPath, key -> Color.fromARGB(
+        sanitizeColor(key.path("alpha")),
         sanitizeColor(key.path("red")),
         sanitizeColor(key.path("green")),
-        sanitizeColor(key.path("blue")),
-        sanitizeColor(key.path("alpha"))));
+        sanitizeColor(key.path("blue"))));
   }
 
   private int sanitizeColor(String path) {
@@ -201,7 +201,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   }
 
   private static @NotNull NamedTextColor asChatColor(@NotNull Color color) {
-    return NamedTextColor.nearestTo(TextColor.color(color.getRGB()));
+    return NamedTextColor.nearestTo(TextColor.color(color.asRGB()));
   }
 
   private record ColorPath(@NotNull VisualizationType visualization, @NotNull VisualizationElementType element) {
