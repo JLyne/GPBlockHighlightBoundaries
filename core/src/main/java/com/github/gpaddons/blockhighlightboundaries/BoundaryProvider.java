@@ -48,12 +48,6 @@ public interface BoundaryProvider {
     return (world, visualizeFrom, height) -> switch (configuration.getStyle()) {
       case FLAT -> new RealCornerVisualization(world, visualizeFrom, height, configuration) {
         @Override
-        protected @NotNull IntVector findDisplayCoordinate(
-            @NotNull IntVector displayCoord, int minY) {
-          return getDefaultDisplay(displayCoord, minY);
-        }
-
-        @Override
         protected @NotNull BlockElement getElement(
             @NotNull Boundary boundary, @NotNull IntVector location,
             @NotNull VisualizationElementType visualizationElementType) {

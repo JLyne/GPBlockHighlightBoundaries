@@ -144,9 +144,9 @@ public abstract class RealCornerVisualization extends BlockBoundaryVisualization
    * @param minY the minimum Y value of the resulting coordinate
    * @return the display coordinate
    */
-  protected abstract @NotNull IntVector findDisplayCoordinate(
-      @NotNull IntVector displayCoord,
-      int minY);
+  protected @NotNull IntVector findDisplayCoordinate(@NotNull IntVector displayCoord, int minY) {
+    return getDefaultDisplay(displayCoord, minY);
+  }
 
   /**
    * Create a {@link BlockElement} with the given parameters.
