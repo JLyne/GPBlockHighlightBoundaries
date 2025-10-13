@@ -7,8 +7,7 @@ import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
-import net.minecraft.network.protocol.common.custom.GameTestAddMarkerDebugPayload;
+import net.minecraft.network.protocol.game.ClientboundGameTestHighlightPosPacket;
 import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -36,8 +35,7 @@ class DebugHighlight extends DebugBlockHighlight {
   @Override
   protected void draw(@NotNull Player player, @NotNull World world) {
     BlockPos blockPos = new BlockPos(getCoordinate().x(), getCoordinate().y(), getCoordinate().z());
-    ClientboundCustomPayloadPacket packet = new ClientboundCustomPayloadPacket(
-        new GameTestAddMarkerDebugPayload(blockPos, getColorInt(), getName(), getDisplayMillis()));
+    ClientboundGameTestHighlightPosPacket packet = new ClientboundGameTestHighlightPosPacket(blockPos, blockPos);
     ((CraftPlayer) player).getHandle().connection.connection.send(packet);
   }
 
@@ -49,8 +47,7 @@ class DebugHighlight extends DebugBlockHighlight {
   @Override
   protected void erase(@NotNull Player player, @NotNull World world) {
     BlockPos blockPos = new BlockPos(getCoordinate().x(), getCoordinate().y(), getCoordinate().z());
-    ClientboundCustomPayloadPacket packet = new ClientboundCustomPayloadPacket(
-        new GameTestAddMarkerDebugPayload(blockPos, getColorInt(), "", 0));
+    ClientboundGameTestHighlightPosPacket packet = new ClientboundGameTestHighlightPosPacket(blockPos, blockPos);
     ((CraftPlayer) player).getHandle().connection.connection.send(packet);
   }
 }
