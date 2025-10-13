@@ -1,12 +1,12 @@
 [versions]
-pluginYml = "0.7.1"
-paper = "1.21.8-R0.1-SNAPSHOT"
-paperweightUserdev = "2.0.0-beta.18"
+pluginYml = "0.8.0"
+paper = "1.21.10-R0.1-SNAPSHOT"
+paperweightUserdev = "2.0.0-beta.19"
 griefPrevention = "17.0.0"
-netty = "4.2.2.Final"
+netty = "4.2.6.Final"
 planarWrappers = "4.0.0"
 protocolLib = "5.3.0"
-packetEvents2 = "2.2.0"
+packetEvents2 = "2.4.0"
 floodgate = "2.2.0-SNAPSHOT"
 messagesHelper = "1.1-SNAPSHOT"
 
@@ -17,7 +17,7 @@ griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention",
 netty =  { group = "io.netty", name = "netty-all", version.ref  = "netty" }
 planarWrappers =  { group = "com.github.jikoo", name = "planarwrappers", version.ref  = "planarWrappers" }
 protocolLib = { group = "com.github.dmulloy2", name = "ProtocolLib", version.ref = "protocolLib"}
-packetEvents2 = { group = "com.github.retrooper.packetevents", name = "spigot", version.ref = "packetEvents2" }
+packetEvents2 = { group = "com.github.retrooper", name = "packetevents-spigot", version.ref = "packetEvents2" }
 floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
 messagesHelper = { group = "uk.co.notnull", name= "MessagesHelper-paper", version.ref = "messagesHelper" }
 

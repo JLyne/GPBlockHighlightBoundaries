@@ -18,7 +18,10 @@ repositories {
         url = uri("https://repo.opencollab.dev/maven-snapshots/")
     }
     maven {
-        url = uri("https://jitpack.io")
+        url = uri("https://repo.codemc.io/repository/maven-releases/")
+    }
+    maven {
+        url = uri("https://jitpack.io/")
     }
 
     mavenLocal()
