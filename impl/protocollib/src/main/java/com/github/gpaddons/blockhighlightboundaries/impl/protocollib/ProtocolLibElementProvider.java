@@ -1,17 +1,21 @@
 package com.github.gpaddons.blockhighlightboundaries.impl.protocollib;
 
-import com.github.gpaddons.blockhighlightboundaries.BoundaryProvider;
+import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.TeamManager;
 import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
+import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
 import org.bukkit.Server;
 import org.jetbrains.annotations.NotNull;
 
-public class ProtocolLibProvider implements BoundaryProvider {
+public class ProtocolLibElementProvider extends BlockHighlightElementProvider {
+  public ProtocolLibElementProvider(HighlightConfiguration configuration, TeamManager teamManager) {
+    super(configuration, teamManager);
+  }
 
   @Override
   public boolean isCapable(@NotNull Server server, @NotNull HighlightConfiguration configuration) {
@@ -28,9 +32,8 @@ public class ProtocolLibProvider implements BoundaryProvider {
   }
 
   @Override
-  public @NotNull DebugBlockHighlight getDebugHighlight(
+  protected @NotNull DebugBlockHighlight getDebugHighlight(
       @NotNull IntVector coordinate,
-      @NotNull HighlightConfiguration configuration,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     return new DebugHighlight(
@@ -41,10 +44,8 @@ public class ProtocolLibProvider implements BoundaryProvider {
   }
 
   @Override
-  public @NotNull EntityBlockHighlight getEntityHighlight(
+  protected @NotNull EntityBlockHighlight getEntityHighlight(
       @NotNull IntVector coordinate,
-      @NotNull HighlightConfiguration configuration,
-      @NotNull TeamManager teamManager,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     return new EntityHighlightDataValueList(

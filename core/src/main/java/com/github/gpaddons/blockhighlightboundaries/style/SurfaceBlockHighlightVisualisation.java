@@ -9,13 +9,13 @@ import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A {@link RealCornerVisualization} abstraction that attempts to snap elements to the nearest
+ * A {@link BlockHighlightVisualization} abstraction that attempts to snap elements to the nearest
  * surface.
  */
-public abstract class SnapToSurface extends RealCornerVisualization {
+public abstract class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualization {
   private int lastLoadedDisplayHeight = Integer.MIN_VALUE;
 
-  protected SnapToSurface(
+  protected SurfaceBlockHighlightVisualisation(
       @NotNull World world,
       @NotNull IntVector visualizeFrom,
       int height,

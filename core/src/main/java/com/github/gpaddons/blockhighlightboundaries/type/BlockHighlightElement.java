@@ -51,5 +51,4 @@ public abstract class BlockHighlightElement extends BlockElement {
   public VisualizationElementType getElementType() {
     return visualizationElementType;
   }
-
 }

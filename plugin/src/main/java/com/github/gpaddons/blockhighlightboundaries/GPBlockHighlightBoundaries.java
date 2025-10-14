@@ -1,14 +1,19 @@
 package com.github.gpaddons.blockhighlightboundaries;
 
 import com.github.gpaddons.blockhighlightboundaries.compat.FloodgateCompat;
-import com.github.gpaddons.blockhighlightboundaries.impl.packetevents2.PacketEvents2Provider;
-import com.github.gpaddons.blockhighlightboundaries.impl.protocollib.ProtocolLibProvider;
-import com.github.gpaddons.blockhighlightboundaries.impl.paperweight.PaperweightProvider;
+import com.github.gpaddons.blockhighlightboundaries.impl.packetevents2.PacketEvents2ElementProvider;
+import com.github.gpaddons.blockhighlightboundaries.impl.protocollib.ProtocolLibElementProvider;
+import com.github.gpaddons.blockhighlightboundaries.impl.paperweight.PaperweightElementProvider;
+import com.github.gpaddons.blockhighlightboundaries.style.BlockHighlightVisualization;
+import com.github.gpaddons.blockhighlightboundaries.style.SurfaceBlockHighlightVisualisation;
+import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.events.BoundaryVisualizationEvent;
+import com.griefprevention.util.IntVector;
+import com.griefprevention.visualization.BlockElement;
+import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationProvider;
 import java.io.File;
 import java.util.List;
-import java.util.function.Supplier;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -133,18 +138,42 @@ public final class GPBlockHighlightBoundaries extends JavaPlugin implements List
   }
 
   private @Nullable VisualizationProvider getProvider() {
-    List<Supplier<BoundaryProvider>> providers = List.of(
+    List<BlockHighlightElementProvider> highlightProviders = List.of(
         // Prefer ProtocolLib, it's more reliable/stable.
-        ProtocolLibProvider::new,
-        PacketEvents2Provider::new,
-        PaperweightProvider::new
+        new ProtocolLibElementProvider(configuration, teamManager),
+        new PacketEvents2ElementProvider(configuration, teamManager),
+        new PaperweightElementProvider(configuration, teamManager)
     );
 
-    return providers.stream().map(Supplier::get)
+    BlockHighlightElementProvider highlightProvider = highlightProviders.stream()
         .filter(provider -> provider.isCapable(getServer(), configuration))
-        .map(provider -> provider.getProvider(configuration, teamManager))
         .findFirst()
         .orElse(null);
+
+    if (highlightProvider == null) {
+      return null;
+    }
+
+    return (world, visualizeFrom, height) -> switch (configuration.getStyle()) {
+      case FLAT -> new BlockHighlightVisualization(world, visualizeFrom, height, configuration) {
+        @Override
+        protected @NotNull BlockElement getElement(
+            @NotNull Boundary boundary, @NotNull IntVector location,
+            @NotNull VisualizationElementType visualizationElementType) {
+          return highlightProvider.getElement(location, boundary, visualizationElementType);
+        }
+      };
+
+      case SNAP_TO_SURFACE -> new SurfaceBlockHighlightVisualisation(world, visualizeFrom, height, configuration) {
+        @Override
+        protected @NotNull BlockElement getElement(
+            @NotNull Boundary boundary, @NotNull IntVector location,
+            @NotNull VisualizationElementType visualizationElementType) {
+          return highlightProvider.getElement(location, boundary, visualizationElementType);
+        }
+      };
+
+    };
   }
 
   private void initMessages() {

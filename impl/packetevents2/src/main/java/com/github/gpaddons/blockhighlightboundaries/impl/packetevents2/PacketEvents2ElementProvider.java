@@ -1,6 +1,6 @@
 package com.github.gpaddons.blockhighlightboundaries.impl.packetevents2;
 
-import com.github.gpaddons.blockhighlightboundaries.BoundaryProvider;
+import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.TeamManager;
 import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
@@ -16,7 +16,10 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import java.util.logging.Logger;
 
-public class PacketEvents2Provider implements BoundaryProvider {
+public class PacketEvents2ElementProvider extends BlockHighlightElementProvider {
+  public PacketEvents2ElementProvider(HighlightConfiguration configuration, TeamManager teamManager) {
+    super(configuration, teamManager);
+  }
 
   @Override
   public boolean isCapable(@NotNull Server server, @NotNull HighlightConfiguration configuration) {
@@ -47,19 +50,16 @@ public class PacketEvents2Provider implements BoundaryProvider {
   }
 
   @Override
-  public @NotNull DebugBlockHighlight getDebugHighlight(
+  protected @NotNull DebugBlockHighlight getDebugHighlight(
       @NotNull IntVector coordinate,
-      @NotNull HighlightConfiguration configuration,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     throw new UnsupportedOperationException("PacketEvents 2.0-SNAPSHOT does not support custom payloads.");
   }
 
   @Override
-  public @NotNull EntityBlockHighlight getEntityHighlight(
+  protected @NotNull EntityBlockHighlight getEntityHighlight(
       @NotNull IntVector coordinate,
-      @NotNull HighlightConfiguration configuration,
-      @NotNull TeamManager teamManager,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     return new PacketEventsEntityHighlight(coordinate, configuration, teamManager, boundary, visualizationElementType);

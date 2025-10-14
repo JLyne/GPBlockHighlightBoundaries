@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
  * A {@link BlockBoundaryVisualization} that always displays the actual depth of the boundary in
  * addition to the visualized depth.
  */
-public abstract class RealCornerVisualization extends BlockBoundaryVisualization {
+public abstract class BlockHighlightVisualization extends BlockBoundaryVisualization {
 
   protected final @NotNull HighlightConfiguration config;
   private long lastSend = 0;
@@ -38,7 +38,7 @@ public abstract class RealCornerVisualization extends BlockBoundaryVisualization
    * @param height the height of the visualization
    * @param config the {@link HighlightConfiguration} containing additional settings
    */
-  protected RealCornerVisualization(
+  protected BlockHighlightVisualization(
       @NotNull World world,
       @NotNull IntVector visualizeFrom,
       int height,
