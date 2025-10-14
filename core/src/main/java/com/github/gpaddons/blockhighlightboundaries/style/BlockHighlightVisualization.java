@@ -3,7 +3,6 @@ package com.github.gpaddons.blockhighlightboundaries.style;
 import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.type.BlockHighlightElement;
-import com.github.gpaddons.blockhighlightboundaries.type.FallThroughElement;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.BlockBoundaryVisualization;
@@ -97,7 +96,7 @@ public class BlockHighlightVisualization extends BlockBoundaryVisualization {
       for (BlockElement element : this.elements) {
         if (element instanceof BlockHighlightElement highlightElement) {
           NamedTextColor color = config.getClosestChatColor(boundary.type(), highlightElement.getElementType());
-          fallthroughElements.add(new FallThroughElement(element.getCoordinate(), color));
+          fallthroughElements.add(elementProvider.getFallthroughElement(element.getCoordinate(), color));
         } else {
           // Somehow not our element? Someone else's problem if it fails again.
           fallthroughElements.add(element);

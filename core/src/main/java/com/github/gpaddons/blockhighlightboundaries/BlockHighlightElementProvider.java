@@ -3,12 +3,14 @@ package com.github.gpaddons.blockhighlightboundaries;
 import com.github.gpaddons.blockhighlightboundaries.type.BlockHighlightElement;
 import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
+import com.github.gpaddons.blockhighlightboundaries.type.FallThroughElement;
 import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.ItemDisplayBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationProvider;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Server;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,6 +45,11 @@ public abstract class BlockHighlightElementProvider {
       case GLOWING_ENTITY -> getEntityHighlight(coordinate, boundary, visualizationElementType);
       case ITEM_DISPLAY -> getDisplayHighlight(coordinate, boundary, visualizationElementType);
     };
+  }
+
+  public final FallThroughElement getFallthroughElement(@NotNull IntVector coordinate,
+      @NotNull NamedTextColor color) {
+    return new FallThroughElement(coordinate, color);
   }
 
   /**

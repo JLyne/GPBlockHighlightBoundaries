@@ -22,10 +22,9 @@ public final class FallThroughElement extends BlockElement
   private @Nullable BlockData realBlock;
 
   public FallThroughElement(
-      @NotNull IntVector intVector,
-      @NotNull NamedTextColor color)
-  {
-    super(intVector);
+      @NotNull IntVector coordinate,
+      @NotNull NamedTextColor color) {
+    super(coordinate);
     Material material = Material.matchMaterial(color + "_wool");
     if (material == null) {
       material = Material.WHITE_WOOL;
