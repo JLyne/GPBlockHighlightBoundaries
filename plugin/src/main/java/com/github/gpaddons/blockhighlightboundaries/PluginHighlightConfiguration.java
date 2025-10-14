@@ -11,14 +11,20 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
+@SuppressWarnings("UnstableApiUsage")
 public class PluginHighlightConfiguration implements HighlightConfiguration {
 
   private final Plugin plugin;
@@ -28,8 +34,9 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   private AtomicInteger nextEntityId;
   private @Nullable HighlightType highlightType;
   private @Nullable HighlightStyle highlightStyle;
-  private final Map<ColorPath, Color> colorCache = new HashMap<>();
-  private final Map<ColorPath, NamedTextColor> chatColorCache = new HashMap<>();
+  private final Map<ElementPath, Color> colorCache = new HashMap<>();
+  private final Map<ElementPath, NamedTextColor> chatColorCache = new HashMap<>();
+  private final Map<ElementPath, ItemStack> itemCache = new HashMap<>();
   private @Nullable Set<UUID> optedOut = null;
 
   PluginHighlightConfiguration(Plugin plugin) {
@@ -44,6 +51,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
     highlightStyle = null;
     colorCache.clear();
     chatColorCache.clear();
+    itemCache.clear();
     getOptedOut();
   }
 
@@ -157,27 +165,55 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   public @NotNull NamedTextColor getClosestChatColor(
       @NotNull VisualizationType type,
       @NotNull VisualizationElementType element) {
-    ColorPath colorPath = new ColorPath(type, element);
+    ElementPath elementPath = new ElementPath(type, element);
 
-    return chatColorCache.computeIfAbsent(colorPath, key -> asChatColor(getColor(colorPath)));
+    return chatColorCache.computeIfAbsent(elementPath,
+        key -> asChatColor(getColor(elementPath)));
   }
 
   @Override
   public @NotNull Color getColor(
       @NotNull VisualizationType type,
       @NotNull VisualizationElementType element) {
-    ColorPath colorPath = new ColorPath(type, element);
+    ElementPath elementPath = new ElementPath(type, element);
 
-    return getColor(colorPath);
+    return getColor(elementPath);
   }
 
-  private @NotNull Color getColor(@NotNull ColorPath colorPath) {
+  @Override
+  public @NotNull ItemStack getItemStack(
+      @NotNull VisualizationType type,
+      @NotNull VisualizationElementType element) {
+    ElementPath elementPath = new ElementPath(type, element);
 
-    return colorCache.computeIfAbsent(colorPath, key -> Color.fromARGB(
-        sanitizeColor(key.path("alpha")),
-        sanitizeColor(key.path("red")),
-        sanitizeColor(key.path("green")),
-        sanitizeColor(key.path("blue"))));
+    return getItemStack(elementPath);
+  }
+
+  private @NotNull Color getColor(@NotNull ElementPath elementPath) {
+    return colorCache.computeIfAbsent(elementPath, key -> Color.fromARGB(
+        sanitizeColor(key.colorPath("alpha")),
+        sanitizeColor(key.colorPath("red")),
+        sanitizeColor(key.colorPath("green")),
+        sanitizeColor(key.colorPath("blue"))));
+  }
+
+  private @NotNull ItemStack getItemStack(@NotNull ElementPath elementPath) {
+    return itemCache.computeIfAbsent(elementPath, key -> {
+      ItemStack item = ItemStack.of(Material.WHITE_STAINED_GLASS);
+      NamespacedKey model = NamespacedKey.fromString(
+          plugin.getConfig().getString(key.displayPath("itemModel"), ""));
+
+      if(plugin.getConfig().getBoolean(elementPath.displayPath("tint"))) {
+        item.setData(DataComponentTypes.CUSTOM_MODEL_DATA,
+            CustomModelData.customModelData().addColor(getColor(elementPath)));
+      }
+
+      if(model != null) {
+        item.setData(DataComponentTypes.ITEM_MODEL, model);
+      }
+
+      return item;
+    });
   }
 
   private int sanitizeColor(String path) {
@@ -204,10 +240,13 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
     return NamedTextColor.nearestTo(TextColor.color(color.asRGB()));
   }
 
-  private record ColorPath(@NotNull VisualizationType visualization, @NotNull VisualizationElementType element) {
-    public String path(@NotNull String element) {
+  private record ElementPath(@NotNull VisualizationType visualization, @NotNull VisualizationElementType element) {
+    public String colorPath(@NotNull String element) {
       return String.format("colors.%s.%s.%s", visualization().name(), element().name(), element);
     }
-  }
 
+    public String displayPath(@NotNull String element) {
+      return String.format("displays.%s.%s.%s", visualization().name(), element().name(), element);
+    }
+  }
 }

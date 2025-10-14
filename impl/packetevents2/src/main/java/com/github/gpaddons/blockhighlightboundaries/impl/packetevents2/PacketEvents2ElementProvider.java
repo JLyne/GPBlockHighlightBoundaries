@@ -6,6 +6,7 @@ import com.github.gpaddons.blockhighlightboundaries.TeamManager;
 import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
+import com.github.gpaddons.blockhighlightboundaries.type.ItemDisplayBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.util.PEVersion;
@@ -46,6 +47,14 @@ public class PacketEvents2ElementProvider extends BlockHighlightElementProvider 
       return false;
     }
 
+    if (configuration.getType() == HighlightType.ITEM_DISPLAY) {
+      Plugin plugin = server.getPluginManager().getPlugin("GPBlockHighlightBoundaries");
+      Logger logger = plugin != null ? plugin.getLogger() : server.getLogger();
+      logger.warning("PacketEvents 2 does not currently support ITEM_DISPLAY.");
+      logger.warning("Please edit your configuration to use GLOWING_ENTITY instead.");
+      return false;
+    }
+
     return true;
   }
 
@@ -63,6 +72,14 @@ public class PacketEvents2ElementProvider extends BlockHighlightElementProvider 
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     return new PacketEventsEntityHighlight(coordinate, configuration, teamManager, boundary, visualizationElementType);
+  }
+
+  @Override
+  protected @NotNull ItemDisplayBlockHighlight getDisplayHighlight(
+          @NotNull IntVector coordinate,
+          @NotNull Boundary boundary,
+          @NotNull VisualizationElementType visualizationElementType) {
+    throw new UnsupportedOperationException("PacketEvents 2.0-SNAPSHOT does not currently support ITEM_DISPLAY.");
   }
 
 }

@@ -3,7 +3,7 @@
 spacing: 10
 viewDistance: 150
 displaySeconds: 60
-# Types: DEBUG_BLOCK, GLOWING_ENTITY
+# Types: DEBUG_BLOCK, GLOWING_ENTITY, ITEM_DISPLAY
 type: GLOWING_ENTITY
 # Styles: FLAT, SNAP_TO_SURFACE
 style: FLAT
@@ -86,3 +86,59 @@ colors:
       green: 255
       blue: 85
       alpha: 255
+# Settings for ITEM_DISPLAY highlights
+displays:
+  CLAIM:
+    CORNER:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+    SIDE:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+  ADMIN_CLAIM:
+    CORNER:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+    SIDE:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+  SUBDIVISION:
+    CORNER:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+    SIDE:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+  INITIALIZE_ZONE:
+    CORNER:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+    SIDE:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+  CONFLICT_ZONE:
+    CORNER:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+    SIDE:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+  NATURE_RESTORATION_ZONE:
+    CORNER:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true
+    SIDE:
+      itemModel: "minecraft:white_stained_glass"
+      # Adds the configured color as custom model data to allow tinting model textures
+      tint: true

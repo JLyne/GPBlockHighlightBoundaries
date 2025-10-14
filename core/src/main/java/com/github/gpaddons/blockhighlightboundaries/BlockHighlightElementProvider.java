@@ -4,6 +4,7 @@ import com.github.gpaddons.blockhighlightboundaries.type.BlockHighlightElement;
 import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
+import com.github.gpaddons.blockhighlightboundaries.type.ItemDisplayBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
@@ -73,4 +74,20 @@ public abstract class BlockHighlightElementProvider {
       @NotNull IntVector coordinate,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType);
+
+  /**
+   * Method for obtaining a
+   * {@link com.github.gpaddons.blockhighlightboundaries.type.HighlightType#ITEM_DISPLAY ITEM_DISPLAY}
+   * highlight implementation for the given parameters.
+   *
+   * @param coordinate the location of the element
+   * @param boundary the boundary being visualized
+   * @param visualizationElementType the type of element in the boundary being visualized
+   * @return the {@link ItemDisplayBlockHighlight} created
+   */
+   abstract protected @NotNull ItemDisplayBlockHighlight getDisplayHighlight(
+      @NotNull IntVector coordinate,
+      @NotNull Boundary boundary,
+      @NotNull VisualizationElementType visualizationElementType);
+
 }

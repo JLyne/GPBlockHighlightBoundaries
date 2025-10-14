@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.griefprevention.visualization.VisualizationType;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
@@ -108,5 +109,14 @@ public interface HighlightConfiguration {
    * @return the color
    */
   @NotNull Color getColor(@NotNull VisualizationType type, @NotNull VisualizationElementType element);
+
+  /**
+   * Get the {@link ItemStack} for an element to be used in an item display.
+   *
+   * @param type the type of visualization
+   * @param element the element of the visualization
+   * @return the item model
+   */
+  @NotNull ItemStack getItemStack(@NotNull VisualizationType type, @NotNull VisualizationElementType element);
 
 }

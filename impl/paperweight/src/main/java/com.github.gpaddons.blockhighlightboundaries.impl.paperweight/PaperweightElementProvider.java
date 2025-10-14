@@ -5,6 +5,7 @@ import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.TeamManager;
 import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
+import com.github.gpaddons.blockhighlightboundaries.type.ItemDisplayBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
@@ -29,6 +30,15 @@ public class PaperweightElementProvider extends BlockHighlightElementProvider {
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     return new EntityHighlight(coordinate, configuration, teamManager, boundary, visualizationElementType);
+  }
+
+  @Override
+  protected @NotNull ItemDisplayBlockHighlight getDisplayHighlight(
+          @NotNull IntVector coordinate,
+          @NotNull Boundary boundary,
+          @NotNull VisualizationElementType visualizationElementType) {
+    //TODO: Scaling etc
+    return new ItemDisplayHighlight(coordinate, configuration, boundary, visualizationElementType);
   }
 
   @Override
