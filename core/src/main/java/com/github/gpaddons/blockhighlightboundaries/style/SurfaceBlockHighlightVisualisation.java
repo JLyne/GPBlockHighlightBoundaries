@@ -1,5 +1,6 @@
 package com.github.gpaddons.blockhighlightboundaries.style;
 
+import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.griefprevention.util.IntVector;
 import org.bukkit.Material;
@@ -12,15 +13,16 @@ import org.jetbrains.annotations.NotNull;
  * A {@link BlockHighlightVisualization} abstraction that attempts to snap elements to the nearest
  * surface.
  */
-public abstract class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualization {
+public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualization {
   private int lastLoadedDisplayHeight = Integer.MIN_VALUE;
 
-  protected SurfaceBlockHighlightVisualisation(
+  public SurfaceBlockHighlightVisualisation(
       @NotNull World world,
       @NotNull IntVector visualizeFrom,
       int height,
-      @NotNull HighlightConfiguration config) {
-    super(world, visualizeFrom, height, config);
+      @NotNull HighlightConfiguration config,
+      @NotNull BlockHighlightElementProvider elementProvider) {
+    super(world, visualizeFrom, height, config, elementProvider);
   }
 
   @Override

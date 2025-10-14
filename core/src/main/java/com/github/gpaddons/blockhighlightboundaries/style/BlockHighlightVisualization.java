@@ -1,5 +1,6 @@
 package com.github.gpaddons.blockhighlightboundaries.style;
 
+import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.type.BlockHighlightElement;
 import com.github.gpaddons.blockhighlightboundaries.type.FallThroughElement;
@@ -25,9 +26,10 @@ import org.jetbrains.annotations.Nullable;
  * A {@link BlockBoundaryVisualization} that always displays the actual depth of the boundary in
  * addition to the visualized depth.
  */
-public abstract class BlockHighlightVisualization extends BlockBoundaryVisualization {
+public class BlockHighlightVisualization extends BlockBoundaryVisualization {
 
   protected final @NotNull HighlightConfiguration config;
+  protected final @NotNull BlockHighlightElementProvider elementProvider;
   private long lastSend = 0;
 
   /**
@@ -38,12 +40,14 @@ public abstract class BlockHighlightVisualization extends BlockBoundaryVisualiza
    * @param height the height of the visualization
    * @param config the {@link HighlightConfiguration} containing additional settings
    */
-  protected BlockHighlightVisualization(
+  public BlockHighlightVisualization(
       @NotNull World world,
       @NotNull IntVector visualizeFrom,
       int height,
-      @NotNull HighlightConfiguration config) {
-    super(world, visualizeFrom, height, config.getSpacing(), config.getViewDistance());
+      @NotNull HighlightConfiguration config,
+      @NotNull BlockHighlightElementProvider elementProvider) {
+    super(world, visualizeFrom, height);
+    this.elementProvider = elementProvider;
     this.config = config;
   }
 
@@ -54,13 +58,13 @@ public abstract class BlockHighlightVisualization extends BlockBoundaryVisualiza
       // Display at visualization level.
       IntVector coordinate = findDisplayCoordinate(vector, minY);
       if (minY != coordinate.y()) {
-        elements.add(getElement(boundary, coordinate, VisualizationElementType.CORNER));
+        elements.add(elementProvider.getElement(coordinate, boundary, VisualizationElementType.CORNER));
       }
       // Always display actual bottom corners as well.
       elements.add(
-          getElement(
-              boundary,
+          elementProvider.getElement(
               new IntVector(vector.x(), minY, vector.z()),
+              boundary,
               VisualizationElementType.CORNER));
     };
   }
@@ -69,14 +73,14 @@ public abstract class BlockHighlightVisualization extends BlockBoundaryVisualiza
   protected @NotNull Consumer<@NotNull IntVector> addSideElements(@NotNull Boundary boundary) {
     return vector -> {
       IntVector coordinate = findDisplayCoordinate(vector,boundary.bounds().getMinY());
-      elements.add(getElement(boundary, coordinate, VisualizationElementType.SIDE));
+      elements.add(elementProvider.getElement(coordinate, boundary, VisualizationElementType.SIDE));
 
       // Display side bottoms as well.
       if (boundary.bounds().getMinY() < coordinate.y()) {
         elements.add(
-            getElement(
-                boundary,
+            elementProvider.getElement(
                 new IntVector(vector.x(), boundary.bounds().getMinY(), vector.z()),
+                boundary,
                 VisualizationElementType.SIDE));
       }
     };
@@ -147,19 +151,6 @@ public abstract class BlockHighlightVisualization extends BlockBoundaryVisualiza
   protected @NotNull IntVector findDisplayCoordinate(@NotNull IntVector displayCoord, int minY) {
     return getDefaultDisplay(displayCoord, minY);
   }
-
-  /**
-   * Create a {@link BlockElement} with the given parameters.
-   *
-   * @param boundary the {@link Boundary} the element represents
-   * @param location the coordinate to display at
-   * @param visualizationElementType the type of element being drawn
-   * @return the element created
-   */
-  protected abstract @NotNull BlockElement getElement(
-      @NotNull Boundary boundary,
-      @NotNull IntVector location,
-      @NotNull VisualizationElementType visualizationElementType);
 
   /**
    * Get the default display coordinate for a given coordinate.

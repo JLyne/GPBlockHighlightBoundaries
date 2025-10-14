@@ -155,24 +155,10 @@ public final class GPBlockHighlightBoundaries extends JavaPlugin implements List
     }
 
     return (world, visualizeFrom, height) -> switch (configuration.getStyle()) {
-      case FLAT -> new BlockHighlightVisualization(world, visualizeFrom, height, configuration) {
-        @Override
-        protected @NotNull BlockElement getElement(
-            @NotNull Boundary boundary, @NotNull IntVector location,
-            @NotNull VisualizationElementType visualizationElementType) {
-          return highlightProvider.getElement(location, boundary, visualizationElementType);
-        }
-      };
-
-      case SNAP_TO_SURFACE -> new SurfaceBlockHighlightVisualisation(world, visualizeFrom, height, configuration) {
-        @Override
-        protected @NotNull BlockElement getElement(
-            @NotNull Boundary boundary, @NotNull IntVector location,
-            @NotNull VisualizationElementType visualizationElementType) {
-          return highlightProvider.getElement(location, boundary, visualizationElementType);
-        }
-      };
-
+      case FLAT -> new BlockHighlightVisualization(world, visualizeFrom, height,
+          configuration, highlightProvider);
+      case SNAP_TO_SURFACE -> new SurfaceBlockHighlightVisualisation(world, visualizeFrom, height,
+          configuration, highlightProvider);
     };
   }
 
