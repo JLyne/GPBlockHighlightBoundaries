@@ -77,6 +77,7 @@ public class PacketEvents2ElementProvider extends BlockHighlightElementProvider 
   @Override
   protected @NotNull ItemDisplayBlockHighlight getDisplayHighlight(
           @NotNull IntVector coordinate,
+          @NotNull IntVector scale,
           @NotNull Boundary boundary,
           @NotNull VisualizationElementType visualizationElementType) {
     throw new UnsupportedOperationException("PacketEvents 2.0-SNAPSHOT does not currently support ITEM_DISPLAY.");

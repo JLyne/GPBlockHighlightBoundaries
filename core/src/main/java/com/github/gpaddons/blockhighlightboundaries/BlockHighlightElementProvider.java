@@ -11,6 +11,7 @@ import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationProvider;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Server;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * An interface defining behavior for a {@link VisualizationProvider} implementation wrapper.
  */
 public abstract class BlockHighlightElementProvider {
+  private final IntVector ONE = new IntVector(1, 1, 1);
   protected final HighlightConfiguration configuration;
   protected final TeamManager teamManager;
   protected final HighlightType type;
@@ -43,13 +45,29 @@ public abstract class BlockHighlightElementProvider {
     return switch(type) {
       case DEBUG_BLOCK -> getDebugHighlight(coordinate, boundary, visualizationElementType);
       case GLOWING_ENTITY -> getEntityHighlight(coordinate, boundary, visualizationElementType);
-      case ITEM_DISPLAY -> getDisplayHighlight(coordinate, boundary, visualizationElementType);
+      case ITEM_DISPLAY -> getDisplayHighlight(coordinate, ONE, boundary, visualizationElementType);
+      default -> throw new NotImplementedException("Highlight type " + type + " not implemented");
     };
   }
 
   public final FallThroughElement getFallthroughElement(@NotNull IntVector coordinate,
       @NotNull NamedTextColor color) {
     return new FallThroughElement(coordinate, color);
+  }
+
+  public final BlockHighlightElement getScaledElement(@NotNull IntVector coordinate,
+      @NotNull IntVector scale,
+      @NotNull Boundary boundary,
+      @NotNull VisualizationElementType visualizationElementType) {
+    if (!type.isScalable()) {
+      throw new UnsupportedOperationException("Selected type is not scalable");
+    }
+
+    if (type == HighlightType.ITEM_DISPLAY) {
+      return getDisplayHighlight(coordinate, scale, boundary, visualizationElementType);
+    } else {
+      throw new NotImplementedException("Highlight type " + type + " not implemented");
+    }
   }
 
   /**
@@ -88,12 +106,14 @@ public abstract class BlockHighlightElementProvider {
    * highlight implementation for the given parameters.
    *
    * @param coordinate the location of the element
+   * @param scale the scale of the element
    * @param boundary the boundary being visualized
    * @param visualizationElementType the type of element in the boundary being visualized
    * @return the {@link ItemDisplayBlockHighlight} created
    */
    abstract protected @NotNull ItemDisplayBlockHighlight getDisplayHighlight(
       @NotNull IntVector coordinate,
+      @NotNull IntVector scale,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType);
 

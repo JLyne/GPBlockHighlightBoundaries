@@ -6,7 +6,6 @@ import com.griefprevention.visualization.Boundary;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -23,18 +22,19 @@ public abstract class ItemDisplayBlockHighlight extends BlockHighlightElement {
    * Construct a new {@code ItemDisplayBlockHighlight} with the given coordinate.
    *
    * @param coordinate the in-world coordinate of the element
+   * @param scale the scale of the element
    * @param configuration the configuration for highlights
    * @param boundary the boundary the element belongs to
    * @param visualizationElementType the type of element being visualized
    */
   public ItemDisplayBlockHighlight(
       @NotNull IntVector coordinate,
+      @NotNull IntVector scale,
       @NotNull HighlightConfiguration configuration,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     super(coordinate, configuration, boundary, visualizationElementType);
-    this.entity = new FakeEntity(configuration.getNextEntityId(),
-                                 new Vector(0.5, 0.5, 0.5));
+    this.entity = new FakeEntity(configuration.getNextEntityId(), scale);
   }
 
   @Override
@@ -70,14 +70,9 @@ public abstract class ItemDisplayBlockHighlight extends BlockHighlightElement {
   }
 
   /** Container for fake entity data. */
-  protected record FakeEntity(int entityId, UUID uuid, Vector localPosition, int xScale, int yScale, int zScale) {
-
-    private FakeEntity(int entityId, Vector localPosition) {
-      this(entityId, UUID.randomUUID(), localPosition, 1, 1, 1);
-    }
-
-    private FakeEntity(int entityId, Vector localPosition, int xScale, int yScale, int zScale) {
-      this(entityId, UUID.randomUUID(), localPosition, xScale, yScale, zScale);
+  protected record FakeEntity(int entityId, UUID uuid, IntVector scale) {
+    private FakeEntity(int entityId, IntVector scale) {
+      this(entityId, UUID.randomUUID(), scale);
     }
   }
 }

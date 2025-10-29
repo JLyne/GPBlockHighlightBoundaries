@@ -35,10 +35,10 @@ public class PaperweightElementProvider extends BlockHighlightElementProvider {
   @Override
   protected @NotNull ItemDisplayBlockHighlight getDisplayHighlight(
           @NotNull IntVector coordinate,
+          @NotNull IntVector scale,
           @NotNull Boundary boundary,
           @NotNull VisualizationElementType visualizationElementType) {
-    //TODO: Scaling etc
-    return new ItemDisplayHighlight(coordinate, configuration, boundary, visualizationElementType);
+    return new ItemDisplayHighlight(coordinate, scale, configuration, boundary, visualizationElementType);
   }
 
   @Override

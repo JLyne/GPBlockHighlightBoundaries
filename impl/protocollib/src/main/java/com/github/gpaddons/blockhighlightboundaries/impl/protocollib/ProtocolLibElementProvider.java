@@ -71,6 +71,7 @@ public class ProtocolLibElementProvider extends BlockHighlightElementProvider {
   @Override
   protected @NotNull ItemDisplayBlockHighlight getDisplayHighlight(
           @NotNull IntVector coordinate,
+          @NotNull IntVector scale,
           @NotNull Boundary boundary,
           @NotNull VisualizationElementType visualizationElementType) {
     throw new UnsupportedOperationException("ProtocolLib does not currently support ITEM_DISPLAY.");

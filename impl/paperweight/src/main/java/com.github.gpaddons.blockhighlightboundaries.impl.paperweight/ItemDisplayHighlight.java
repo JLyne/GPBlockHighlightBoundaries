@@ -28,10 +28,11 @@ class ItemDisplayHighlight extends ItemDisplayBlockHighlight {
 
   public ItemDisplayHighlight(
       @NotNull IntVector coordinate,
+      @NotNull IntVector scale,
       @NotNull HighlightConfiguration configuration,
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
-    super(coordinate, configuration, boundary, visualizationElementType);
+    super(coordinate, scale, configuration, boundary, visualizationElementType);
   }
 
   @Override
@@ -39,9 +40,9 @@ class ItemDisplayHighlight extends ItemDisplayBlockHighlight {
     Connection channel = ((CraftPlayer) player).getHandle().connection.connection;
     ClientboundAddEntityPacket packet = new ClientboundAddEntityPacket(
         fakeEntity.entityId(), fakeEntity.uuid(),
-        getCoordinate().x() + fakeEntity.localPosition().getX(),
-        getCoordinate().y() + fakeEntity.localPosition().getY(),
-        getCoordinate().z() + fakeEntity.localPosition().getZ(),
+        getCoordinate().x() + ((double) fakeEntity.scale().x() / 2),
+        getCoordinate().y() + ((double) fakeEntity.scale().y() / 2),
+        getCoordinate().z() + ((double) fakeEntity.scale().z() / 2),
         0.0f, 0.0f, EntityType.ITEM_DISPLAY, 0, Vec3.ZERO, 0.0);
 
     ItemStack item = CraftItemStack.unwrap(getItemStack());
@@ -49,12 +50,12 @@ class ItemDisplayHighlight extends ItemDisplayBlockHighlight {
     List<DataValue<?>> packedItems = List.of(
             new DataValue<>(5, EntityDataSerializers.BOOLEAN, Boolean.TRUE), // No gravity
             new DataValue<>(12, EntityDataSerializers.VECTOR3,
-                new Vector3f(fakeEntity.xScale() + 0.01f, fakeEntity.yScale() + 0.01f,
-                    fakeEntity.zScale() + 0.01f)), // Scale
+                new Vector3f(fakeEntity.scale().x() + 0.01f, fakeEntity.scale().y() + 0.01f,
+                    fakeEntity.scale().z() + 0.01f)), // Scale
             new DataValue<>(16, EntityDataSerializers.INT, Brightness.FULL_BRIGHT.pack()), // Fullbright
             new DataValue<>(17, EntityDataSerializers.FLOAT, ((float) configuration.getViewDistance()) / 64), // View distance
-            new DataValue<>(20, EntityDataSerializers.FLOAT, 1.0f), // View distance
-            new DataValue<>(21, EntityDataSerializers.FLOAT, 1.0f), // View distance
+            new DataValue<>(20, EntityDataSerializers.FLOAT, (float) Math.max(fakeEntity.scale().x(), fakeEntity.scale().z())), // View distance
+            new DataValue<>(21, EntityDataSerializers.FLOAT, (float) fakeEntity.scale().y()), // View distance
             new DataValue<>(23, EntityDataSerializers.ITEM_STACK, item) // Item
     );
 
