@@ -60,9 +60,9 @@ public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualizat
 
     do {
       int scale = 1;
-      int currentY = findDisplayY(x, height, displayZone.getMaxZ(), displayZone.getMinY());
+      int currentY = findDisplayY(x, height, area.getMaxZ(), displayZone.getMinY());
       while(++x < endX &&
-          findDisplayY(x, height, displayZone.getMaxZ(), displayZone.getMinY()) == currentY) {
+          findDisplayY(x, height, area.getMaxZ(), displayZone.getMinY()) == currentY) {
         scale++;
       }
 
@@ -74,9 +74,9 @@ public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualizat
 
     do {
       int scale = 1;
-      int currentY = findDisplayY(x, height, displayZone.getMinZ(), displayZone.getMinY());
+      int currentY = findDisplayY(x, height, area.getMinZ(), displayZone.getMinY());
       while(++x < endX &&
-          findDisplayY(x, height, displayZone.getMinZ(), displayZone.getMinY()) == currentY) {
+          findDisplayY(x, height, area.getMinZ(), displayZone.getMinY()) == currentY) {
         scale++;
       }
 
@@ -86,13 +86,13 @@ public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualizat
 
     do {
       int scale = 1;
-      int currentY = findDisplayY(displayZone.getMaxX(), height, z, displayZone.getMinY());
+      int currentY = findDisplayY(area.getMaxX(), height, z, displayZone.getMinY());
       while(++z < endZ &&
-          findDisplayY(displayZone.getMaxX(), height, z, displayZone.getMinY()) == currentY) {
+          findDisplayY(area.getMaxX(), height, z, displayZone.getMinY()) == currentY) {
         scale++;
       }
 
-      addScaledDisplayed(displayZone, new IntVector(displayZone.getMaxX(), currentY, z - scale),
+      addScaledDisplayed(displayZone, new IntVector(area.getMaxX(), currentY, z - scale),
         new IntVector(1, 1, scale), addScaledSide);
     } while(z < endZ);
 
@@ -100,13 +100,13 @@ public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualizat
 
     do {
       int scale = 1;
-      int currentY = findDisplayY(displayZone.getMinX(), height, z, displayZone.getMinY());
+      int currentY = findDisplayY(area.getMinX(), height, z, displayZone.getMinY());
       while(++z < endZ &&
-          findDisplayY(displayZone.getMinX(), height, z, displayZone.getMinY()) == currentY) {
+          findDisplayY(area.getMinX(), height, z, displayZone.getMinY()) == currentY) {
         scale++;
       }
 
-      addScaledDisplayed(displayZone, new IntVector(displayZone.getMinX(), currentY, z - scale),
+      addScaledDisplayed(displayZone, new IntVector(area.getMinX(), currentY, z - scale),
         new IntVector(1, 1, scale), addScaledSide);
     } while(z < endZ);
 
