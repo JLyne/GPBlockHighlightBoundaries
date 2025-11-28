@@ -21,6 +21,7 @@ dependencies {
 
 tasks {
     jar {
+      archiveBaseName = rootProject.name
       from(project(":GPBlockHighlightBoundaries-core").sourceSets.main.get().output)
       from(project(":GPBlockHighlightBoundaries-packetevents2").sourceSets.main.get().output)
       from(project(":GPBlockHighlightBoundaries-protocollib").sourceSets.main.get().output)
@@ -29,6 +30,7 @@ tasks {
 }
 
 paper {
+    name = rootProject.name
     main = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundaries"
     loader = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundariesLoader"
     apiVersion = libs.versions.paper.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
