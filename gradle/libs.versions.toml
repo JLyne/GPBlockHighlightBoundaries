@@ -1,6 +1,6 @@
 [versions]
 pluginYml = "0.8.0"
-paper = "1.21.10-R0.1-SNAPSHOT"
+paper = "1.21.11-R0.1-SNAPSHOT"
 paperweightUserdev = "2.0.0-beta.19"
 griefPrevention = "17.0.0"
 netty = "4.2.6.Final"

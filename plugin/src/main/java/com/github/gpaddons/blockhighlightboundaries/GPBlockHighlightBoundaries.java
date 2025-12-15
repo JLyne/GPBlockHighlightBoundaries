@@ -13,6 +13,7 @@ import com.griefprevention.visualization.BlockElement;
 import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationProvider;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -169,6 +170,10 @@ public final class GPBlockHighlightBoundaries extends JavaPlugin implements List
       saveResource("messages.yml", false);
     }
 
-    messagesHelper.loadMessages(messagesFile);
+    try {
+      messagesHelper.loadMessages(messagesFile);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
