@@ -3,7 +3,6 @@ package com.github.gpaddons.blockhighlightboundaries.impl.packetevents2;
 import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.TeamManager;
-import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.ItemDisplayBlockHighlight;
@@ -12,9 +11,7 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.util.PEVersion;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
-import java.util.logging.Logger;
 import org.bukkit.Server;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 public class PacketEvents2ElementProvider extends BlockHighlightElementProvider {
@@ -34,36 +31,7 @@ public class PacketEvents2ElementProvider extends BlockHighlightElementProvider 
       return false;
     }
 
-    if (PacketEvents.getAPI().getVersion().isOlderThan(new PEVersion(2, 11, 1))) {
-      return false;
-    }
-
-    if (configuration.getType() == HighlightType.DEBUG_BLOCK) {
-      Plugin plugin = server.getPluginManager().getPlugin("GPBlockHighlightBoundaries");
-      Logger logger = plugin != null ? plugin.getLogger() : server.getLogger();
-      logger.warning("PacketEvents 2 does not (or did not yet) support custom payloads.");
-      logger.warning("This means that GPBHB cannot display DEBUG_BLOCK type boundaries.");
-      logger.warning("Please edit your configuration to use GLOWING_ENTITY instead.");
-      return false;
-    }
-
-    if (configuration.getType() == HighlightType.ITEM_DISPLAY) {
-      Plugin plugin = server.getPluginManager().getPlugin("GPBlockHighlightBoundaries");
-      Logger logger = plugin != null ? plugin.getLogger() : server.getLogger();
-      logger.warning("PacketEvents 2 does not currently support ITEM_DISPLAY.");
-      logger.warning("Please edit your configuration to use GLOWING_ENTITY instead.");
-      return false;
-    }
-
-    return true;
-  }
-
-  @Override
-  protected @NotNull DebugBlockHighlight getDebugHighlight(
-      @NotNull IntVector coordinate,
-      @NotNull Boundary boundary,
-      @NotNull VisualizationElementType visualizationElementType) {
-    throw new UnsupportedOperationException("PacketEvents 2.0-SNAPSHOT does not support custom payloads.");
+    return !PacketEvents.getAPI().getVersion().isOlderThan(new PEVersion(2, 11, 1));
   }
 
   @Override

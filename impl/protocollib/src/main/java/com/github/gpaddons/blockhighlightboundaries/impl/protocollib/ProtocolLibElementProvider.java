@@ -3,7 +3,6 @@ package com.github.gpaddons.blockhighlightboundaries.impl.protocollib;
 import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.TeamManager;
-import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.ItemDisplayBlockHighlight;
@@ -41,18 +40,6 @@ public class ProtocolLibElementProvider extends BlockHighlightElementProvider {
     } catch (ClassNotFoundException e) {
       return false;
     }
-  }
-
-  @Override
-  protected @NotNull DebugBlockHighlight getDebugHighlight(
-      @NotNull IntVector coordinate,
-      @NotNull Boundary boundary,
-      @NotNull VisualizationElementType visualizationElementType) {
-    return new DebugHighlight(
-        coordinate,
-        configuration,
-        boundary,
-        visualizationElementType);
   }
 
   @Override

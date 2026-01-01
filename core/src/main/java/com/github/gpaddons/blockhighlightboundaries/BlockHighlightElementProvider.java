@@ -1,7 +1,6 @@
 package com.github.gpaddons.blockhighlightboundaries;
 
 import com.github.gpaddons.blockhighlightboundaries.type.BlockHighlightElement;
-import com.github.gpaddons.blockhighlightboundaries.type.DebugBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.FallThroughElement;
 import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
@@ -43,7 +42,6 @@ public abstract class BlockHighlightElementProvider {
       @NotNull Boundary boundary,
       @NotNull VisualizationElementType visualizationElementType) {
     return switch(type) {
-      case DEBUG_BLOCK -> getDebugHighlight(coordinate, boundary, visualizationElementType);
       case GLOWING_ENTITY -> getEntityHighlight(coordinate, boundary, visualizationElementType);
       case ITEM_DISPLAY -> getDisplayHighlight(coordinate, ONE, boundary, visualizationElementType);
       default -> throw new NotImplementedException("Highlight type " + type + " not implemented");
@@ -69,21 +67,6 @@ public abstract class BlockHighlightElementProvider {
       throw new NotImplementedException("Highlight type " + type + " not implemented");
     }
   }
-
-  /**
-   * Method for obtaining a
-   * {@link com.github.gpaddons.blockhighlightboundaries.type.HighlightType#DEBUG_BLOCK DEBUG_BLOCK}
-   * highlight implementation for the given parameters.
-   *
-   * @param coordinate the location of the element
-   * @param boundary the boundary being visualized
-   * @param visualizationElementType the type of element in the boundary being visualized
-   * @return the {@link DebugBlockHighlight} created
-   */
-  abstract protected @NotNull DebugBlockHighlight getDebugHighlight(
-      @NotNull IntVector coordinate,
-      @NotNull Boundary boundary,
-      @NotNull VisualizationElementType visualizationElementType);
 
   /**
    * Method for obtaining a

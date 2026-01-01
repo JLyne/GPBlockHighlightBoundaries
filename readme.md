@@ -18,7 +18,7 @@ If both are installed, ProtocolLib will be preferred - PacketEvents does not sup
 
 ## Limitations
 
-GPBHB leverages the Glowing effect or the debug block depending on your settings.
+GPBHB leverages the Glowing effect or item displays depending on your settings.
 Bedrock clients do not have either of these features.
 
 GPBHB will automatically ignore users from Geyser if Floodgate is installed,
