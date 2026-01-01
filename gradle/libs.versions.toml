@@ -5,7 +5,7 @@ paperweightUserdev = "2.0.0-beta.21"
 griefPrevention = "18.0.0"
 netty = "4.2.6.Final"
 planarWrappers = "4.0.0"
-protocolLib = "5.3.0"
+protocolLib = "5.4.0"
 packetEvents2 = "2.12.2"
 floodgate = "2.2.0-SNAPSHOT"
 messagesHelper = "1.1-SNAPSHOT"
@@ -16,7 +16,7 @@ paperweightBundle = { group = "io.papermc.paper", name = "dev-bundle", version.r
 griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref  = "griefPrevention" }
 netty =  { group = "io.netty", name = "netty-all", version.ref  = "netty" }
 planarWrappers =  { group = "com.github.jikoo", name = "planarwrappers", version.ref  = "planarWrappers" }
-protocolLib = { group = "com.github.dmulloy2", name = "ProtocolLib", version.ref = "protocolLib"}
+protocolLib = { group = "net.dmulloy2", name = "ProtocolLib", version.ref = "protocolLib"}
 packetEvents2 = { group = "com.github.retrooper", name = "packetevents-spigot", version.ref = "packetEvents2" }
 floodgate = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
 messagesHelper = { group = "uk.co.notnull", name= "MessagesHelper-paper", version.ref = "messagesHelper" }
