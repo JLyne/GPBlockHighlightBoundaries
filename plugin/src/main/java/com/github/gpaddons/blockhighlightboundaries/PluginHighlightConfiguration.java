@@ -16,9 +16,9 @@ import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -199,7 +199,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
 
   private @NotNull ItemStack getItemStack(@NotNull ElementPath elementPath) {
     return itemCache.computeIfAbsent(elementPath, key -> {
-      ItemStack item = ItemStack.of(Material.WHITE_STAINED_GLASS);
+      ItemStack item = ItemType.WHITE_STAINED_GLASS_PANE.createItemStack();
       NamespacedKey model = NamespacedKey.fromString(
           plugin.getConfig().getString(key.displayPath("itemModel"), ""));
 

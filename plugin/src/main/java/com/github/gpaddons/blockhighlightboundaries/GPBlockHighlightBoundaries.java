@@ -6,11 +6,7 @@ import com.github.gpaddons.blockhighlightboundaries.impl.protocollib.ProtocolLib
 import com.github.gpaddons.blockhighlightboundaries.impl.paperweight.PaperweightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.style.BlockHighlightVisualization;
 import com.github.gpaddons.blockhighlightboundaries.style.SurfaceBlockHighlightVisualisation;
-import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.events.BoundaryVisualizationEvent;
-import com.griefprevention.util.IntVector;
-import com.griefprevention.visualization.BlockElement;
-import com.griefprevention.visualization.Boundary;
 import com.griefprevention.visualization.VisualizationProvider;
 import java.io.File;
 import java.io.IOException;

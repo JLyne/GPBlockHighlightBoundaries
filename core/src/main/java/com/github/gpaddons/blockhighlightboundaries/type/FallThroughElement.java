@@ -4,8 +4,10 @@ import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.BlockElement;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.World;
+import org.bukkit.block.BlockType;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -25,11 +27,11 @@ public final class FallThroughElement extends BlockElement
       @NotNull IntVector coordinate,
       @NotNull NamedTextColor color) {
     super(coordinate);
-    Material material = Material.matchMaterial(color + "_wool");
-    if (material == null) {
-      material = Material.WHITE_WOOL;
+    BlockType blockType = Registry.BLOCK.get(NamespacedKey.minecraft(color + "_wool"));
+    if (blockType == null) {
+      blockType = BlockType.WHITE_WOOL;
     }
-    this.visualizedBlock = material.createBlockData();
+    this.visualizedBlock = blockType.createBlockData();
   }
 
   @Override

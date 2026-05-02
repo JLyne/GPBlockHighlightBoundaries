@@ -33,7 +33,7 @@ paper {
     name = rootProject.name
     main = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundaries"
     loader = "com.github.gpaddons.blockhighlightboundaries.GPBlockHighlightBoundariesLoader"
-    apiVersion = libs.versions.paper.get().replace(Regex("\\-R\\d.\\d-SNAPSHOT"), "")
+    apiVersion = libs.versions.paper.get().replace(".build.+", "")
     generateLibrariesJson = true
     authors = listOf("Jim (AnEnragedPigeon)", "Jikoo")
 
