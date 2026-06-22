@@ -15,7 +15,7 @@ import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData.DataValue;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ class EntityHighlight extends EntityBlockHighlight {
         getCoordinate().x() + fakeEntity.localPosition().getX(),
         getCoordinate().y() + fakeEntity.localPosition().getY(),
         getCoordinate().z() + fakeEntity.localPosition().getZ(),
-        0.0f, 0.0f, EntityType.MAGMA_CUBE, 0, Vec3.ZERO, 0.0);
+        0.0f, 0.0f, EntityTypes.MAGMA_CUBE, 0, Vec3.ZERO, 0.0);
 
     List<DataValue<?>> packedItems = List.of(
       new DataValue<>(0, EntityDataSerializers.BYTE, (byte) (0x20 | 0x40)), // Invisible (0x20) and glowing (0x40).

@@ -13,7 +13,7 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData.DataValue;
 import net.minecraft.util.Brightness;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -43,7 +43,7 @@ class ItemDisplayHighlight extends ItemDisplayBlockHighlight {
         getCoordinate().x() + ((double) fakeEntity.scale().x() / 2),
         getCoordinate().y() + ((double) fakeEntity.scale().y() / 2),
         getCoordinate().z() + ((double) fakeEntity.scale().z() / 2),
-        0.0f, 0.0f, EntityType.ITEM_DISPLAY, 0, Vec3.ZERO, 0.0);
+        0.0f, 0.0f, EntityTypes.ITEM_DISPLAY, 0, Vec3.ZERO, 0.0);
 
     ItemStack item = CraftItemStack.unwrap(getItemStack());
 
