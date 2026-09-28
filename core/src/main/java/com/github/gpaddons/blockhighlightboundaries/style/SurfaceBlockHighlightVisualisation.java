@@ -1,13 +1,14 @@
 package com.github.gpaddons.blockhighlightboundaries.style;
 
+import com.destroystokyo.paper.MaterialSetTag;
 import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvider;
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
 import me.ryanhamshire.GriefPrevention.util.BoundingBox;
+import org.bukkit.Fluid;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ import java.util.function.Consumer;
  */
 public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualization {
   private int lastLoadedDisplayHeight = Integer.MIN_VALUE;
+  protected final boolean waterTransparent;
 
   public SurfaceBlockHighlightVisualisation(
       @NotNull World world,
@@ -28,6 +30,10 @@ public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualizat
       @NotNull HighlightConfiguration config,
       @NotNull BlockHighlightElementProvider elementProvider) {
     super(world, visualizeFrom, height, config, elementProvider);
+    
+    // Water is considered transparent based on whether the visualization is initiated in water.
+    waterTransparent = world.getFluidData(
+        visualizeFrom.x(), visualizeFrom.y(), visualizeFrom.z()).getFluidType() == Fluid.WATER;
   }
 
   @Override
@@ -229,23 +235,28 @@ public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualizat
 
   private boolean isTransparent(Block block) {
     Material blockMaterial = block.getType();
-
-    // Custom per-material definitions.
-    switch (blockMaterial)
-    {
-      case WATER, SNOW:
-        return false;
+    Fluid fluidType = block.getWorld().getFluidData(block.getLocation()).getFluidType();
+    
+    if (fluidType == Fluid.WATER) {
+      return waterTransparent;
+    } else if (fluidType == Fluid.LAVA) {
+      return false; // Can't see through lava
     }
 
-    if (blockMaterial.isAir()
-        || Tag.FENCES.isTagged(blockMaterial)
-        || Tag.FENCE_GATES.isTagged(blockMaterial)
-        || Tag.SIGNS.isTagged(blockMaterial)
-        || Tag.WALLS.isTagged(blockMaterial)
-        || Tag.WALL_SIGNS.isTagged(blockMaterial))
-      return true;
+    // Custom per-material definitions.
+    switch (blockMaterial) {
+      case SNOW, MOSS_CARPET, PALE_MOSS_CARPET: // These don't occlude light but cover the whole block below
+        return false;
+    }
+    
+    // These don't occlude light but cover the whole block below
+    if (MaterialSetTag.SLABS.isTagged(blockMaterial)
+        || MaterialSetTag.STAIRS.isTagged(blockMaterial)
+        || MaterialSetTag.WOOL_CARPETS.isTagged(blockMaterial)) {
+      return false;
+    }
 
-    return block.getType().isTransparent();
+    return !block.isCollidable() || !blockMaterial.isOccluding(); // Block has no collision or doesn't occlude light
   }
 
   @Override
