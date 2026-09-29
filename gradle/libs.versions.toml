@@ -3,7 +3,7 @@ pluginYml = "0.9.0"
 paper = "26.3.build.+"
 paperweightUserdev = "2.0.0-beta.21"
 griefPrevention = "18.0.0"
-netty = "4.2.6.Final"
+netty = "4.2.18.Final"
 planarWrappers = "4.0.0"
 protocolLib = "5.4.0"
 packetEvents2 = "2.12.2"
@@ -13,7 +13,7 @@ messagesHelper = "1.1-SNAPSHOT"
 [libraries]
 paperApi = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 paperweightBundle = { group = "io.papermc.paper", name = "dev-bundle", version.ref = "paper" }
-griefPrevention = { group = "com.github.TechFortress", name = "GriefPrevention", version.ref  = "griefPrevention" }
+griefPrevention = { group = "com.github.GriefPrevention", name = "GriefPrevention", version.ref  = "griefPrevention" }
 netty =  { group = "io.netty", name = "netty-all", version.ref  = "netty" }
 planarWrappers =  { group = "com.github.jikoo", name = "planarwrappers", version.ref  = "planarWrappers" }
 protocolLib = { group = "net.dmulloy2", name = "ProtocolLib", version.ref = "protocolLib"}
