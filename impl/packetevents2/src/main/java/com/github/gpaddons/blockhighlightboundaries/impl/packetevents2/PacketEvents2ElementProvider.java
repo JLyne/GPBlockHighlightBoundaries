@@ -12,10 +12,10 @@ import com.github.retrooper.packetevents.PacketEvents;
 import com.github.retrooper.packetevents.util.PEVersion;
 import com.griefprevention.util.IntVector;
 import com.griefprevention.visualization.Boundary;
+import java.util.logging.Logger;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import java.util.logging.Logger;
 
 public class PacketEvents2ElementProvider extends BlockHighlightElementProvider {
   public PacketEvents2ElementProvider(HighlightConfiguration configuration, TeamManager teamManager) {
@@ -34,7 +34,7 @@ public class PacketEvents2ElementProvider extends BlockHighlightElementProvider 
       return false;
     }
 
-    if (PacketEvents.getAPI().getVersion().isOlderThan(new PEVersion(2))) {
+    if (PacketEvents.getAPI().getVersion().isOlderThan(new PEVersion(2, 11, 1))) {
       return false;
     }
 

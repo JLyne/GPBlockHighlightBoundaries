@@ -6,7 +6,7 @@ griefPrevention = "18.0.0"
 netty = "4.2.6.Final"
 planarWrappers = "4.0.0"
 protocolLib = "5.3.0"
-packetEvents2 = "2.4.0"
+packetEvents2 = "2.12.2"
 floodgate = "2.2.0-SNAPSHOT"
 messagesHelper = "1.1-SNAPSHOT"
 
