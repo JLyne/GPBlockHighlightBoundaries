@@ -221,7 +221,7 @@ public class PluginHighlightConfiguration implements HighlightConfiguration {
   }
 
   private static int limit(int min, int max, int actual) {
-    return Math.max(min, Math.min(max, actual));
+    return Math.clamp(actual, min, max);
   }
 
   private static <T extends Enum<T>> @NotNull T parseEnum(

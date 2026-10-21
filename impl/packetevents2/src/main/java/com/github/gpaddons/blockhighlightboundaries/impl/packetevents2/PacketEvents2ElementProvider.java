@@ -4,7 +4,6 @@ import com.github.gpaddons.blockhighlightboundaries.BlockHighlightElementProvide
 import com.github.gpaddons.blockhighlightboundaries.HighlightConfiguration;
 import com.github.gpaddons.blockhighlightboundaries.TeamManager;
 import com.github.gpaddons.blockhighlightboundaries.type.EntityBlockHighlight;
-import com.github.gpaddons.blockhighlightboundaries.type.HighlightType;
 import com.github.gpaddons.blockhighlightboundaries.type.ItemDisplayBlockHighlight;
 import com.github.gpaddons.blockhighlightboundaries.type.VisualizationElementType;
 import com.github.retrooper.packetevents.PacketEvents;

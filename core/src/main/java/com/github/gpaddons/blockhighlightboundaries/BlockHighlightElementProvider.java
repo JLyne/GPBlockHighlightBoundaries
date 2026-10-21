@@ -44,7 +44,6 @@ public abstract class BlockHighlightElementProvider {
     return switch(type) {
       case GLOWING_ENTITY -> getEntityHighlight(coordinate, boundary, visualizationElementType);
       case ITEM_DISPLAY -> getDisplayHighlight(coordinate, ONE, boundary, visualizationElementType);
-      default -> throw new NotImplementedException("Highlight type " + type + " not implemented");
     };
   }
 
