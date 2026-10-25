@@ -245,7 +245,7 @@ public class SurfaceBlockHighlightVisualisation extends BlockHighlightVisualizat
 
     // Custom per-material definitions.
     switch (blockMaterial) {
-      case SNOW, MOSS_CARPET, PALE_MOSS_CARPET: // These don't occlude light but cover the whole block below
+      case SNOW, MOSS_CARPET, PALE_MOSS_CARPET, DIRT_PATH: // These don't occlude light but cover the whole block below
         return false;
     }
     
